@@ -1,7 +1,7 @@
 # Compiler to use
-CC     = gcc
+CC	   = gcc
 CPPC   = g++
-LEX    = flex
+LEX	   = flex
 YACC   = bison -y
 LINKER = g++
 
@@ -11,15 +11,18 @@ GENDIR = obj
 OBJDIR = obj
 BINDIR = bin
 TESTDIR = test
-LIBDIR = lib
-INCLUDEDIR = include
-LIBRARIES = -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system -lGL
 
-CFLAGS   = -O3 -Wall -I$(INCLUDEDIR) -I$(GENDIR) -I$(SRCDIR)
-CPPFLAGS = -O3 -g -Wall -I$(INCLUDEDIR) -I$(GENDIR) -I$(SRCDIR)
-LFLAGS   = 
-YFLAGS   = -d
-LDFLAGS  = -O3 -lm -g -L$(LIBDIR) $(LIBRARIES)
+# On linux: (or local installation of SFML2)
+# LIBPATHS = -Llib
+# INCLUDEDIR = -Iinclude
+LIBRARIES = -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system
+# -lGL (on linux?)
+
+CFLAGS	 = -Wall $(INCLUDEDIR) -I$(GENDIR) -I$(SRCDIR)
+CPPFLAGS = -g -Wall $(INCLUDEDIR) -I$(GENDIR) -I$(SRCDIR) -DSFML_DYNAMIC
+LFLAGS	 = 
+YFLAGS	 = -d
+LDFLAGS	 = -lm -g $(LIBPATHS) $(LIBRARIES)
 
 # To allow linking of multiple projects we assume files matching *_main.* are main project files.
 # Files sharing the same prefix (before _main.*) are considered part of the same project.
@@ -63,7 +66,7 @@ OBJECTS += $(addprefix $(OBJDIR)/, $(patsubst %.l,%.o,$(notdir $(LEX_SOURCES))))
 OBJECTS += $(addprefix $(OBJDIR)/, $(patsubst %.y,%.o,$(notdir $(YACC_SOURCES))))
 
 
-# Targets to make 
+# Targets to make {
 all : $(PROJECT_TARGETS)
 
 $(OBJDIR)/%.o : $(GENDIR)/%.c
@@ -89,7 +92,7 @@ $(GENDIR)/%.c : $(SRCDIR)/%.y
 # '%' in the prerequisite list, but functions get expanded before that % takes on a value.
 define define_project_rules
 $(BINDIR)/$(1) : $(filter $(OBJDIR)/$(1)%, $(PROJECT_OBJECTS)) $(OBJECTS)
-	$$(LINKER) $$(LDFLAGS) -o $$@ $$^
+	$$(LINKER) -o $$@ $$^ $$(LDFLAGS)
 endef
 
 $(foreach project,$(PROJECTS),$(eval $(call define_project_rules,$(project))))
