@@ -4,7 +4,7 @@
 class Random {
 private:
     unsigned int seed;
-
+    
 public:
     Random();
 
