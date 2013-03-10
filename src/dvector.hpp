@@ -17,9 +17,10 @@ public:
     void add(DVector *other);
     void add(double offset);
     void scale(double factor);
-    void add_sin(double start, double end);
-    void add_cos(double start, double end);
+    void add_sin(double scale, double start, double end);
+    void add_cos(double scale, double start, double end);
     void add_noise(Random &r, double scale);
+    const std::vector<double> &get();
 };
 
 #endif

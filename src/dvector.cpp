@@ -52,33 +52,32 @@ void DVector::scale(double factor) {
 /*
  * Add a section of sine to the vector.
  *
- * start and end values are such that 1.0 is a full circle.
+ * start and end values are such that 1.0 is a half circle.
  */
-void DVector::add_sin(double start, double end) {
-    int size = v.size();
-    int i;
-    start *= M_PI;
-    end *= M_PI;
-    vector<double>::iterator it;
-    for (it = v.begin(), i = 0;
-         it != v.end(); it++, i++) {
-        *it = sin(start + (i * (end - start) / (size-1)));
-    }
-}
-
-/*
- * Add a section of cosine to the vector.
- *
- * start and end values are such that 1.0 is a full circle.
- */
-void DVector::add_cos(double start, double end) {
+void DVector::add_sin(double scale, double start, double end) {
     int size = v.size();
     int i;
     start *= M_PI;
     end *= M_PI;
     vector<double>::iterator it;
     for (it = v.begin(), i = 0; it != v.end(); it++, i++) {
-        *it = cos(start + (i * (end - start) / (size-1)));
+        *it = *it + scale * sin(start + (i * (end - start) / (size-1)));
+    }
+}
+
+/*
+ * Add a section of cosine to the vector.
+ *
+ * start and end values are such that 1.0 is a half circle.
+ */
+void DVector::add_cos(double scale, double start, double end) {
+    int size = v.size();
+    int i;
+    start *= M_PI;
+    end *= M_PI;
+    vector<double>::iterator it;
+    for (it = v.begin(), i = 0; it != v.end(); it++, i++) {
+        *it = *it + scale * cos(start + (i * (end - start) / (size-1)));
     }
 }
 
@@ -89,4 +88,8 @@ void DVector::add_noise(Random &r, double scale) {
     for (vector<double>::iterator it = v.begin(); it != v.end(); it++) {
         *it = *it + r.get_double(-scale, scale);
     }
+}
+
+const vector<double> &DVector::get() {
+    return v;
 }
