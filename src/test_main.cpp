@@ -4,6 +4,7 @@
 #include "random.hpp"
 #include "drawing.hpp"
 #include "dvector.hpp"
+#include "parse.hpp"
 
 using namespace std;
 
@@ -144,8 +145,64 @@ void test_wave() {
 	}
 }
 
+void test_mnt() {
+    // Create the main window
+    sf::RenderWindow window(sf::VideoMode(200, 200), "Wave Test");
+    Random r;
+
+	int n = 12;
+
+    int x = 20, y = 20, w = 160, h = 160;
+    
+	DVector mntlx(n), mntly(n);
+    DVector mntmx(n), mntmy(n);
+    DVector mntrx(n), mntry(n);
+
+    mntlx.add_linear(x, x+w/2);
+    mntlx.add_noise(r, 4.0);
+    mntly.add_linear(y+h, y);
+    mntly.add_noise(r, 4.0);
+
+    mntmx.add_linear(x+w/2, x+w*r.get_double(0.7, 0.9));
+    mntmx.add_noise(r, 4.0);
+    mntmy.add_linear(y, y+h*r.get_double(1.1, 1.2));
+    mntmy.add_noise(r, 4.0);
+
+    mntrx.add_linear(x+w/2, x+w);
+    mntrx.add_noise(r, 4.0);
+    mntry.add_linear(y, y+h);
+    mntry.add_noise(r, 4.0);
+        
+	sf::VertexArray mntl(sf::LinesStrip, n), mntm(sf::LinesStrip, n), mntr(sf::LinesStrip, n);
+
+    set_vertexarray_to_dvectors(mntl, n, mntlx, mntly);
+    set_vertexarray_to_dvectors(mntm, n, mntmx, mntmy);
+    set_vertexarray_to_dvectors(mntr, n, mntrx, mntry);
+
+	sf::Event event;
+
+	window.clear(sf::Color::Black);
+
+	while (window.isOpen()) {
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed) {
+                window.close();
+			}
+		}
+		window.clear(sf::Color::Black);
+        window.draw(mntl);
+        window.draw(mntm);
+        window.draw(mntr);
+		window.display();
+	}
+}
+
 int main() {
-    test_wave();
+//    test_wave();
+
+//    parse("resources/test.txt");
+
+    test_mnt();
 
     return 0;
 }
