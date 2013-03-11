@@ -2,9 +2,16 @@
 #define APPLICATION_HPP
 
 class Application {
-    Application();
+private:
+    sf::RenderWindow *window;
 
-    void run();
+public:
+    Application();
+    ~Application();    
+
+    void init_window(int w, int h);
+
+    void menu();
 };
 
 
