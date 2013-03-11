@@ -50,6 +50,18 @@ void DVector::scale(double factor) {
 }
 
 /*
+ * Add a linear sequence to the vector.
+ */
+void DVector::add_linear(double start, double end) {
+    int size = v.size();
+    int i;
+    vector<double>::iterator it;
+    for (it = v.begin(), i = 0; it != v.end(); it++, i++) {
+        *it = *it + start + (i * (end - start) / (size-1));
+    }
+}
+
+/*
  * Add a section of sine to the vector.
  *
  * start and end values are such that 1.0 is a half circle.
@@ -87,6 +99,50 @@ void DVector::add_cos(double scale, double start, double end) {
 void DVector::add_noise(Random &r, double scale) {
     for (vector<double>::iterator it = v.begin(); it != v.end(); it++) {
         *it = *it + r.get_double(-scale, scale);
+    }
+}
+
+/*
+ * maps sin() onto the vector.
+ */
+void DVector::map_sin() {
+    int i;
+    vector<double>::iterator it;
+    for (it = v.begin(), i = 0; it != v.end(); it++, i++) {
+        *it = sin(*it);
+    }
+}
+
+/*
+ * maps cos() onto the vector.
+ */
+void DVector::map_cos() {
+    int i;
+    vector<double>::iterator it;
+    for (it = v.begin(), i = 0; it != v.end(); it++, i++) {
+        *it = cos(*it);
+    }
+}
+
+/*
+ * maps abs() onto the vector.
+ */
+void DVector::map_abs() {
+    int i;
+    vector<double>::iterator it;
+    for (it = v.begin(), i = 0; it != v.end(); it++, i++) {
+        *it = fabs(*it);
+    }
+}
+
+/*
+ * maps -x onto the vector.
+ */
+void DVector::map_neg() {
+    int i;
+    vector<double>::iterator it;
+    for (it = v.begin(), i = 0; it != v.end(); it++, i++) {
+        *it = -*it;
     }
 }
 
