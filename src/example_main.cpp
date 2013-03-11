@@ -17,8 +17,7 @@ void draw(const vector<double> &x, const vector<double> &y) {
     }
 }
 
-int main()
-{
+int main() {
     // Create the main window
     sf::RenderWindow window(sf::VideoMode(800, 600), "SFML window");
  

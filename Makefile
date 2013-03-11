@@ -13,10 +13,9 @@ BINDIR = bin
 TESTDIR = test
 
 # On linux: (or local installation of SFML2)
-# LIBPATHS = -Llib
-# INCLUDEDIR = -Iinclude
+LIBPATHS = -Llib
+INCLUDEDIR = -Iinclude
 LIBRARIES = -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system
-# -lGL (on linux?)
 
 CFLAGS	 = -Wall $(INCLUDEDIR) -I$(GENDIR) -I$(SRCDIR)
 CPPFLAGS = -g -Wall $(INCLUDEDIR) -I$(GENDIR) -I$(SRCDIR) -DSFML_DYNAMIC
