@@ -13,7 +13,8 @@ public:
     DVector(int n);
     DVector(const DVector &copy);
     
-    void set_zero();
+    void clear();
+    void set(int index, double value);
 	
     void add(DVector *other);
     void add(double offset);

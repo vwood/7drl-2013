@@ -19,12 +19,26 @@ DVector::DVector(const DVector &copy) {
     }
 }
 
-void DVector::set_zero() {
+/*
+ * Sets the vector to zeroes
+ */
+void DVector::clear() {
     for (vector<double>::iterator it = v.begin(); it != v.end(); it++) {
         *it = 0.0;
     }
 }
 
+/*
+ * Sets a specific index to the given value
+ */
+void DVector::set(int index, double value) {
+    v[index] = value;
+}
+
+/*
+ * Add the values from another vector to this one.
+ * Only adds up to the shorted vector.
+ */
 void DVector::add(DVector *other) {
     for (vector<double>::iterator it = v.begin(), oit = other->v.begin(); oit != other->v.end() && it != v.end(); oit++, it++) {
         *it = *it + *oit;

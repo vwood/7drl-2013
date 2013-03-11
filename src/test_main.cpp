@@ -55,7 +55,7 @@ void test_dvector() {
     print_vector(v.get());
     v.add_noise(r, 10.0);
     print_vector(v.get());
-    v.set_zero();
+    v.clear();
     print_vector(v.get());
     v.add_sin(10.0, 0.0, 1.0);
     print_vector(v.get());
@@ -111,7 +111,7 @@ void test_wave() {
 
 	vector<sf::VertexArray> waves;
 
-	for (int i = 0; i < 5; i++) {
+	for (int i = 0; i < 6; i++) {
 		DVector xs(n), ys(n);
 		xs.add_linear(20.0 + (i % 2) * 20.0, 160.0 + (i % 2) * 20);
 		//xs.add_noise(r, 2.0);
