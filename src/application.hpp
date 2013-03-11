@@ -1,18 +1,30 @@
 #ifndef APPLICATION_HPP
 #define APPLICATION_HPP
 
+enum game_states {
+    TITLE_SCREEN,
+    GAME_PLAY,
+    GAME_PAUSED,
+    QUIT
+};
+
 class Application {
 private:
+    sf::Font *font;
     sf::RenderWindow *window;
-
+    enum game_states state;
+    
 public:
     Application();
     ~Application();    
 
-    void init_window(int w, int h);
+    bool init(int w, int h);
 
-    void menu();
+    enum game_states title_loop();
+    enum game_states game_loop();
+    enum game_states paused_loop();
+
+    void state_loop();
 };
-
 
 #endif
