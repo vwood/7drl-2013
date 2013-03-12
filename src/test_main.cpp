@@ -143,7 +143,7 @@ void test_mnt() {
 
 	int n = 12;
 
-    int x = 20, y = 20, w = 160, h = 160;
+    int x = 20, y = 60, w = 160, h = 120;
     
 	DVector mntlx(n), mntly(n);
     DVector mntmx(n), mntmy(n);

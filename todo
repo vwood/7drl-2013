@@ -1,0 +1,29 @@
+DONE: Add midpoint displacement to DVector 
+
+TODO:
+* Create 2d map object (tiles)
+* Create Poisson disc alg.
+* Create poly areas
+* Draw map from objects
+* Sorted objects by Y
+* Add actor objects
+  - stored on map
+* Add basic UI
+  - 2 panels
+* Add basic AI (chase player)
+  - and scripting/events - countdown to generation from caves
+* Improve AI (chase nearest)
+  - AI should store current task, only change with turn delay (i.e. plan ahead one)
+* Add troops
+* Add troopeffects
+  - Block enemies
+  - Healing
+  - Reveal enemies current AI task
+  - Stealth
+  - Extra sight
+* LoS/FoV (simple circles)
+* Path finding (combination of fields) 
+* Increase line width via quads / rects / polys
+* Add 'combat'
+* Add death
+* Add win conditions
