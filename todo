@@ -2,6 +2,7 @@ DONE: Add midpoint displacement to DVector
 
 TODO:
 * Create 2d map object (tiles)
+* Probably switch to a point struct - vector iteraton alone is probably worth it
 * Create Poisson disc alg.
 * Create poly areas
 * Draw map from objects
