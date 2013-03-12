@@ -1,26 +1,27 @@
-#ifndef DRAWABLE_HPP
-#define DRAWABLE_HPP
+#ifndef DRAWING_HPP
+#define DRAWING_HPP
 
 #include <vector>
 #include <SFML/Graphics.hpp>
 
 class Random;
 
-class Drawable {
+class Drawing {
 private:
     std::vector<sf::VertexArray *> v;
 
 public:
-    Drawable();
-    ~Drawable();
+    Drawing();
+    ~Drawing();
     
     void draw(sf::RenderWindow &r, double x, double y);
+
+    static Drawing *new_mountain(Random &r, double size);
+    static Drawing *new_tree(Random &r, double size);
+    static Drawing *new_hill(Random &r, double size);
+    static Drawing *new_wave(Random &r, double size);
+    static Drawing *new_land(Random &r, double size);
 };
 
-extern Drawable drawable_mountain();
-extern Drawable drawable_tree();
-extern Drawable drawable_hill();
-extern Drawable drawable_wave();
-extern Drawable drawable_land();
 
 #endif

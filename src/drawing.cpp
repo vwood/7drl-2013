@@ -1,25 +1,135 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <iostream>
+#include "random.hpp"
+#include "dvector.hpp"
 #include "drawing.hpp"
 
 using namespace std;
 
-Drawable::Drawable() {
+Drawing::Drawing() {}
 
-}
-
-Drawable::~Drawable() {
-    for (vector<sf::VertexArray *>::iterator it=v.begin(); it != v.end(); it++) {
-        delete *it;
+/*
+ * Delete all items in the vector.
+ */
+Drawing::~Drawing() {
+    for (vector<sf::VertexArray *>::iterator vit=v.begin(); vit != v.end(); vit++) {
+        delete *vit;
     }
 }
 
-void Drawable::draw(sf::RenderWindow &r, double x, double y) {
+void Drawing::draw(sf::RenderWindow &r, double x, double y) {
     sf::Transform t;
     t.translate(x, y);
     sf::RenderStates rs(t);
-    
+
     for (vector<sf::VertexArray *>::iterator it = v.begin(); it != v.end(); it++) {
         r.draw(**it, rs);
     }
 }
+
+/*
+ * Sets points in a VertexArray to the values in a pair of DVectors
+ *
+ * offset is the offset of the points in the VertexArray (so you can build one from multiple DVectors)
+ * n is the number of points (in case the VertexArray is smaller than the DVectors)
+ */
+void set_vertexarray_to_dvectors(sf::VertexArray &va, int offset, int n, DVector &xs, DVector &ys) {
+	int i;
+	vector<double>::const_iterator xit, yit;
+
+	for (i = 0, xit = xs.get().begin(), yit = ys.get().begin();
+		 i < n && xit != xs.get().end() && yit != ys.get().end();
+		 i++, xit++, yit++) {
+		va[i + offset].position = sf::Vector2f(*xit, *yit);
+	}
+}
+
+/*
+ * Sets points in a VertexArray to the color specified
+ * 
+ * offset is the offset to begin at
+ * n is the number of points to set
+ */
+void set_vertexarray_to_color(sf::VertexArray &va, int offset, int n, sf::Color c) {
+	int i;
+	vector<double>::const_iterator xit, yit;
+
+	for (i = 0; i < n; i++) {
+		va[i + offset].color = c;
+	}
+}
+
+/*
+ * Factory function for generating mountains
+ */
+Drawing *Drawing::new_mountain(Random &r, double size) {
+	int n = 12;
+
+    int height = r.get_int(size * 1/2, size * 2/3);
+    int x = -(size/2), y = -height, w = size, h = height;
+    
+	DVector mntlx(n), mntly(n);
+    DVector mntmx(n), mntmy(n);
+    DVector mntrx(n), mntry(n);
+
+    mntlx.add_linear(x, x+w/2);
+
+	mntly.set(0, y+h);
+	mntly.set(n-1, y);
+	mntly.map_midpoint_displacement(r, 0.3, 0.7);
+	
+    mntmx.add_linear(x+w/2, x+w*r.get_double(0.7, 0.9));
+	
+	mntmy.set(0, y);
+	mntmy.set(n-1, y+h*r.get_double(1.1, 1.2));
+	mntmy.map_midpoint_displacement(r, 0.3, 0.7);
+	
+    mntrx.add_linear(x+w/2, x+w);
+
+	mntry.set(0, y);
+	mntry.set(n-1, y+h);
+	mntry.map_midpoint_displacement(r, 0.3, 0.7);
+
+    sf::VertexArray *mntl, *mntm, *mntr, *mntp1, *mntp2;
+    mntl = new sf::VertexArray(sf::LinesStrip, n);
+    mntm = new sf::VertexArray(sf::LinesStrip, n);
+    mntr = new sf::VertexArray(sf::LinesStrip, n);
+    mntp1 = new sf::VertexArray(sf::TrianglesFan, n * 2 + 1);
+    mntp2 = new sf::VertexArray(sf::TrianglesFan, n * 2 + 1);
+
+    set_vertexarray_to_dvectors(*mntl, 0, n, mntlx, mntly);
+    set_vertexarray_to_dvectors(*mntm, 0, n, mntmx, mntmy);
+    set_vertexarray_to_dvectors(*mntr, 0, n, mntrx, mntry);
+
+    set_vertexarray_to_color(*mntl, 0, n, sf::Color::Black);
+    set_vertexarray_to_color(*mntm, 0, n, sf::Color::Black);
+    set_vertexarray_to_color(*mntr, 0, n, sf::Color::Black);
+    set_vertexarray_to_color(*mntp1, 0, n*2 + 1, sf::Color(180, 180, 180, 255));
+    set_vertexarray_to_color(*mntp2, 0, n*2 + 1, sf::Color::White);
+    
+    (*mntp1)[0].position = sf::Vector2f(x+w/2, y+h*1.1);
+    set_vertexarray_to_dvectors(*mntp1, 1, n, mntlx, mntly);
+    set_vertexarray_to_dvectors(*mntp1, n, n, mntrx, mntry);
+    (*mntp1)[n*2].position = sf::Vector2f(mntmx.get()[n-1], mntmy.get()[n-1]);
+
+    (*mntp2)[0].position = sf::Vector2f(x+w/2, y+h*1.1);
+    set_vertexarray_to_dvectors(*mntp2, 1, n, mntlx, mntly);
+    set_vertexarray_to_dvectors(*mntp2, n, n, mntmx, mntmy);
+    (*mntp2)[n*2].position = sf::Vector2f(mntmx.get()[n-1], mntmy.get()[n-1]);
+
+    Drawing *result = new Drawing();
+    result->v.push_back(mntp1);
+    result->v.push_back(mntp2);
+    result->v.push_back(mntl);
+    result->v.push_back(mntm);
+    result->v.push_back(mntr);
+    
+    return result;
+}
+
+/* TODO: */
+Drawing *Drawing::new_tree(Random &r, double size) { return NULL; }
+Drawing *Drawing::new_hill(Random &r, double size) { return NULL; }
+Drawing *Drawing::new_wave(Random &r, double size) { return NULL; }
+Drawing *Drawing::new_land(Random &r, double size) { return NULL; }

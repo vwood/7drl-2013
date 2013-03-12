@@ -21,7 +21,7 @@ void draw(const vector<double> &x, const vector<double> &y) {
 int main() {
     Application game;
 
-    if (!game.init(400, 400)) {
+    if (!game.init(640, 480)) {
         cerr << "Error during initialisation." << endl;
         return 1;
     }

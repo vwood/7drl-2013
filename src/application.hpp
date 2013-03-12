@@ -10,6 +10,7 @@ enum game_states {
 
 class Application {
 private:
+    int w, h;
     sf::Font *font;
     sf::RenderWindow *window;
     enum game_states state;

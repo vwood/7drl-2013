@@ -3,6 +3,7 @@
 #include <vector>
 #include "random.hpp"
 #include "dvector.hpp"
+#include "drawing.hpp"
 #include "parse.hpp"
 #include "poisson.hpp"
 
@@ -201,12 +202,24 @@ void test_poisson() {
 	window_loop(window);
 }
 
+void test_drawing() {
+    // Create the main window
+    sf::RenderWindow window(sf::VideoMode(200, 200), "Wave Test");
+    Random r;
+    Drawing *mnt = Drawing::new_mountain(r, 100);
+
+    window.clear(sf::Color(128, 128, 128, 0));
+	mnt->draw(window, 100, 180);
+    window.display();
+    window_loop(window);
+}
 
 int main() {
 //    test_wave();
 //    parse("resources/test.txt");
-    test_mnt();
+//    test_mnt();
 //    test_poisson();
-
+    test_drawing();
+    
     return 0;
 }

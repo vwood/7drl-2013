@@ -1,13 +1,12 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include "drawing.hpp"
+#include "random.hpp"
 #include "application.hpp"
 
 using namespace std;
 
-Application::Application() {
-	font = NULL;
-	window = NULL;
-}
+Application::Application() : w(640), h(480), font(NULL), window(NULL) { }
 
 Application::~Application() {
     if (window) {
@@ -24,6 +23,9 @@ Application::~Application() {
  * Load/Create resources, returns false iff it has failed.
  */
 bool Application::init(int w, int h) {
+    this->w = w;
+    this->h = h;
+    
     if (window) {
         window->close();
         delete window;
@@ -45,21 +47,29 @@ bool Application::init(int w, int h) {
 
 enum game_states Application::title_loop() {
     sf::Color background(200, 210, 255, 0);
-    sf::Color text_color(100, 100, 220, 255);
+    sf::Color text_color(80, 80, 220, 255);
 
 	sf::Text text("Seven Days of Midnight", *font, 32);
     text.setPosition(10, 10);
     text.setColor(text_color);
-    
+
+    sf::RectangleShape rs(sf::Vector2f(w, h / 3));
+    rs.setFillColor(sf::Color(120, 120, 250, 255));
+
+    Random r;
+    Drawing *m1 = Drawing::new_mountain(r, 100);
+    Drawing *m2 = Drawing::new_mountain(r, 100);
+    Drawing *m3 = Drawing::new_mountain(r, 100);
+
+    bool quitting = false;
     // Start the game loop
-    while (window->isOpen()) {
+    while (!quitting) {
         // *** Events ***
         sf::Event event;
         while (window->pollEvent(event)) {
             switch (event.type) {
             case sf::Event::Closed:
-                window->close();
-                return QUIT;
+                quitting = true;
                 break;
 
             case sf::Event::Resized:
@@ -68,8 +78,7 @@ enum game_states Application::title_loop() {
             case sf::Event::KeyPressed:
                 switch (event.key.code) {
                 case sf::Keyboard::Escape:
-                    window->close();
-                    return QUIT;
+                    quitting = true;
                     break;
 
                 default:
@@ -88,10 +97,18 @@ enum game_states Application::title_loop() {
         
         // *** Draw ***
         window->clear(background);
+        window->draw(rs);
         window->draw(text);
+        m1->draw(*window, 120.0, 180.0);
+        m2->draw(*window, 220.0, 180.0);
+        m3->draw(*window, 170.0, 220.0);
         window->display();
     }
 
+    delete m1;
+    delete m2;
+    delete m3;
+    
     return QUIT;
 }
 
