@@ -53,7 +53,7 @@ enum game_states Application::title_loop() {
     
     // Start the game loop
     while (window->isOpen()) {
-        // Process events
+        // *** Events ***
         sf::Event event;
         while (window->pollEvent(event)) {
             switch (event.type) {
@@ -83,11 +83,12 @@ enum game_states Application::title_loop() {
             }
         }
 
+        // *** Updates ***
+        // Nope
+        
         // *** Draw ***
         window->clear(background);
         window->draw(text);
-
-        // Update the window
         window->display();
     }
 
