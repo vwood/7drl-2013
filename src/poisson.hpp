@@ -13,8 +13,7 @@ private:
 	double min_dist2_to(double x, double y);
 
 public:
-    Poisson();
-    ~Poisson();
+    Poisson() {};
 	
 	void generate(Random &r, int w, int h, double radius, int k, int n);
 	

@@ -4,6 +4,7 @@
 #include "random.hpp"
 #include "dvector.hpp"
 #include "parse.hpp"
+#include "poisson.hpp"
 
 using namespace std;
 
@@ -18,6 +19,24 @@ void print_vector(const vector<double> &v) {
         cout << *it;
     }
     cout << endl;
+}
+
+/*
+ * Simple window loop, won't redraw (but fuck it, this is testing)
+ */
+void window_loop(sf::RenderWindow &window) {
+	sf::Event event;
+	while (window.isOpen()) {
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed) {
+                window.close();
+			} else if (event.type == sf::Event::KeyPressed) {
+                if (event.key.code == sf::Keyboard::Escape) {
+                    window.close();
+				}
+			}
+		}
+	}
 }
 
 void test_random() {
@@ -77,20 +96,10 @@ void test_circle() {
 	sf::VertexArray lines(sf::LinesStrip, 20);
 	set_vertexarray_to_dvectors(lines, 20, xs, ys);
 
-	sf::Event event;
-
 	window.clear(sf::Color::Black);
-
-	while (window.isOpen()) {
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed) {
-                window.close();
-			}
-		}
-		window.clear(sf::Color::Black);
-		window.draw(lines);
-		window.display();
-	}
+	window.draw(lines);
+	window.display();
+	window_loop(window);
 }
 
 void test_wave() {
@@ -117,22 +126,12 @@ void test_wave() {
 		waves.push_back(lines);
 	}
 
-	sf::Event event;
-
 	window.clear(sf::Color::Black);
-
-	while (window.isOpen()) {
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed) {
-                window.close();
-			}
-		}
-		window.clear(sf::Color::Black);
-		for (vector<sf::VertexArray>::iterator it = waves.begin(); it != waves.end(); it++) {
-			window.draw(*it);
-		}
-		window.display();
+	for (vector<sf::VertexArray>::iterator it = waves.begin(); it != waves.end(); it++) {
+		window.draw(*it);
 	}
+	window.display();
+	window_loop(window);
 }
 
 void test_mnt() {
@@ -173,30 +172,41 @@ void test_mnt() {
     set_vertexarray_to_dvectors(mntm, n, mntmx, mntmy);
     set_vertexarray_to_dvectors(mntr, n, mntrx, mntry);
 
-	sf::Event event;
+	window.clear(sf::Color::Black);
+	window.draw(mntl);
+	window.draw(mntm);
+	window.draw(mntr);
+	window.display();
+
+	window_loop(window);
+}
+
+void test_poisson() {
+    // Create the main window
+    sf::RenderWindow window(sf::VideoMode(200, 200), "Wave Test");
+    Random r;
+	Poisson p;
+
+	p.generate(r, 200, 200, 30, 10, 100);
 
 	window.clear(sf::Color::Black);
-
-	while (window.isOpen()) {
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed) {
-                window.close();
-			}
-		}
-		window.clear(sf::Color::Black);
-        window.draw(mntl);
-        window.draw(mntm);
-        window.draw(mntr);
-		window.display();
+	sf::CircleShape cs(2, 4);
+	for (vector<double>::const_iterator xit = p.get_x().begin(), yit = p.get_y().begin();
+		 xit != p.get_x().end() && yit != p.get_y().end(); xit++, yit++) {
+		cs.setPosition(*xit, *yit);
+		window.draw(cs);
 	}
+	window.display();
+
+	window_loop(window);
 }
+
 
 int main() {
 //    test_wave();
-
 //    parse("resources/test.txt");
-
-    test_mnt();
+//    test_mnt();
+    test_poisson();
 
     return 0;
 }
