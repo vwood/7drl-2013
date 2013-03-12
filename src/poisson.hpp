@@ -18,7 +18,8 @@ public:
 	
 	void generate(Random &r, int w, int h, double radius, int k, int n);
 	
-    const std::vector<double> &get();
+    const std::vector<double> &get_x();
+    const std::vector<double> &get_y();
 };
 
 #endif

@@ -62,3 +62,11 @@ void Poisson::generate(Random &r, int w, int h, double radius, int k, int n) {
 		}
 	}
 }
+
+const vector<double> &Poisson::get_x() {
+	return xs;
+}
+	
+const vector<double> &Poisson::get_y() {
+	return ys;
+}
