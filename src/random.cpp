@@ -1,5 +1,6 @@
 #include <time.h>
 #include <stdlib.h>
+#include <iostream>
 #include "random.hpp"
 
 using namespace std;
@@ -17,15 +18,15 @@ unsigned int Random::get_seed() {
 }
 
 double Random::get_double(double low, double high) {
-    srand(seed);    
+    srand(seed);
 	double result = (double)rand() / (double)RAND_MAX;
-    srand(seed = rand());    
+    seed = rand() + (rand() << 16);
     return result * (high - low) + low;
 }
 
 int Random::get_int(int low, int high) {
     srand(seed);    
     double random = (double)rand() / (double)RAND_MAX;
-    srand(seed = rand());
+    seed = rand() + (rand() << 16);
     return (int)(random * (high - low)) + low;
 }

@@ -1,3 +1,4 @@
+#include <iostream>
 #include <vector>
 #include "random.hpp"
 #include "poisson.hpp"
@@ -29,20 +30,22 @@ double Poisson::min_dist2_to(double x, double y) {
  * TODO: generate n from the size of the polygon, so we select a density of points
  *
  * w, h = size of the area
- * radius = minimum distance between points
+ * radius = minimum distance between points squared
  * k = number of alternatives to test
  * n = total number of points to generate
  */
-void Poisson::generate(Random &r, int w, int h, double radius, int k, int n) {
+void Poisson::generate(Random &r, int w, int h, double radius2, int k, int n) {
 	xs.push_back(r.get_double(0, w));
 	ys.push_back(r.get_double(0, h));
 
-	for (int i = 0; i < n; i++) {
+	int count = 1;
+	
+	for (int i = 0; count < n && i < n * 2; i++) {
 		double best_x = r.get_double(0, w);
 		double best_y = r.get_double(0, h);
 		double best_dist = min_dist2_to(best_x, best_y);
-
-		for (int j = 1; j < k; j++) {
+		
+		for (int j = 1; j < k * 3; j++) {
 			double ax = r.get_double(0, w);
 			double ay = r.get_double(0, h);
 			double alt_dist = min_dist2_to(ax, ay);
@@ -56,10 +59,11 @@ void Poisson::generate(Random &r, int w, int h, double radius, int k, int n) {
 		}
 
 		// Only add point if it is actually greater than radius
-		if (best_dist > radius) { 
+		if (best_dist > radius2) { 
 			xs.push_back(best_x);
 			ys.push_back(best_y);
-		}
+			count++;
+		} 
 	}
 }
 
