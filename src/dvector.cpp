@@ -116,6 +116,7 @@ void DVector::add_noise(Random &r, double scale) {
     }
 }
 
+
 /*
  * maps sin() onto the vector.
  */
@@ -157,6 +158,43 @@ void DVector::map_neg() {
     vector<double>::iterator it;
     for (it = v.begin(), i = 0; it != v.end(); it++, i++) {
         *it = -*it;
+    }
+}
+
+
+/*
+ * Provides displacement in the array, assuming a[s] and a[e] are the ends of the array, which are set
+ *
+ * min & max are the min and max of the displacement.
+ */
+void midpoint_displacement(Random &r, double a[], int s, int e, double min, double max) {
+	if (e - s <= 1) return;
+	int mid = s + (e-s)/2;
+	
+	if (mid != s && mid != e) {
+		a[mid] = a[s] + (a[e]-a[s]) * r.get_double(min, max);
+	}
+
+	midpoint_displacement(r, a, s, mid, min, max);
+	midpoint_displacement(r, a, mid, e, min, max);
+}
+
+/*
+ * Performs midpoint displacement to the vector.
+ *
+ * Uses current endpoints of the vector
+ * min and max are the limits on the amount of displacement to perform
+ */
+void DVector::map_midpoint_displacement(Random &r, double min, double max) {
+	int size = v.size();
+	double displacement[size];
+	displacement[0] = v[0];
+	displacement[size-1] = v[size-1];
+	midpoint_displacement(r, displacement, 0, size-1, min, max);
+	int i;
+	vector<double>::iterator it;
+    for (i = 0, it = v.begin(); it != v.end(); i++, it++) {
+        *it = displacement[i];
     }
 }
 

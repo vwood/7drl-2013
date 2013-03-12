@@ -28,7 +28,8 @@ public:
 	void map_sin();
 	void map_cos();
 	void map_abs();
-	void map_neg();	
+	void map_neg();
+	void map_midpoint_displacement(Random &r, double min, double max);
 
     const std::vector<double> &get();
 };

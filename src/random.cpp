@@ -17,12 +17,14 @@ unsigned int Random::get_seed() {
 }
 
 double Random::get_double(double low, double high) {
-    double result = (double)rand() / (double)RAND_MAX;
+    srand(seed);    
+	double result = (double)rand() / (double)RAND_MAX;
     srand(seed = rand());    
     return result * (high - low) + low;
 }
 
 int Random::get_int(int low, int high) {
+    srand(seed);    
     double random = (double)rand() / (double)RAND_MAX;
     srand(seed = rand());
     return (int)(random * (high - low)) + low;

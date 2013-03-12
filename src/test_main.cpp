@@ -2,7 +2,6 @@
 #include <iostream>
 #include <vector>
 #include "random.hpp"
-#include "drawing.hpp"
 #include "dvector.hpp"
 #include "parse.hpp"
 
@@ -37,15 +36,6 @@ void test_random() {
     cout << r.get_int(10, 20) << ", ";
     cout << r.get_double(10, 20) << ", ";
     cout << r.get_double(10, 20) << endl;
-}
-
-void test_vector() {
-    Random r;
-    r.set_seed(100);
-
-    vector<double> *noise = generate_noise(10, &r, 10.0);
-
-    print_vector(*noise);
 }
 
 void test_dvector() {
@@ -149,6 +139,7 @@ void test_mnt() {
     // Create the main window
     sf::RenderWindow window(sf::VideoMode(200, 200), "Wave Test");
     Random r;
+	cout << r.get_seed() << endl;
 
 	int n = 12;
 
@@ -159,20 +150,23 @@ void test_mnt() {
     DVector mntrx(n), mntry(n);
 
     mntlx.add_linear(x, x+w/2);
-    mntlx.add_noise(r, 4.0);
-    mntly.add_linear(y+h, y);
-    mntly.add_noise(r, 4.0);
 
+	mntly.set(0, y+h);
+	mntly.set(n-1, y);
+	mntly.map_midpoint_displacement(r, 0.3, 0.7);
+	
     mntmx.add_linear(x+w/2, x+w*r.get_double(0.7, 0.9));
-    mntmx.add_noise(r, 4.0);
-    mntmy.add_linear(y, y+h*r.get_double(1.1, 1.2));
-    mntmy.add_noise(r, 4.0);
-
+	
+	mntmy.set(0, y);
+	mntmy.set(n-1, y+h*r.get_double(1.1, 1.2));
+	mntmy.map_midpoint_displacement(r, 0.3, 0.7);
+	
     mntrx.add_linear(x+w/2, x+w);
-    mntrx.add_noise(r, 4.0);
-    mntry.add_linear(y, y+h);
-    mntry.add_noise(r, 4.0);
-        
+
+	mntry.set(0, y);
+	mntry.set(n-1, y+h);
+	mntry.map_midpoint_displacement(r, 0.3, 0.7);
+	
 	sf::VertexArray mntl(sf::LinesStrip, n), mntm(sf::LinesStrip, n), mntr(sf::LinesStrip, n);
 
     set_vertexarray_to_dvectors(mntl, n, mntlx, mntly);
