@@ -57,19 +57,14 @@ enum game_states Application::title_loop() {
         sf::Event event;
         while (window->pollEvent(event)) {
             switch (event.type) {
-                // window closed
             case sf::Event::Closed:
                 window->close();
                 return QUIT;
                 break;
 
-                // window resized
             case sf::Event::Resized:
-                std::cout << "Resized: " << event.size.width << "x";
-                std::cout << event.size.height << std::endl;
                 break;
 
-                // key pressed
             case sf::Event::KeyPressed:
                 switch (event.key.code) {
                 case sf::Keyboard::Escape:

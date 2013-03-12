@@ -205,8 +205,8 @@ void test_poisson() {
 int main() {
 //    test_wave();
 //    parse("resources/test.txt");
-//    test_mnt();
-    test_poisson();
+    test_mnt();
+//    test_poisson();
 
     return 0;
 }
