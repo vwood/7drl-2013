@@ -1,11 +1,18 @@
 DONE: Add midpoint displacement to DVector 
 DONE: Create Poisson disc alg.
+DONE: Create 2d map object (tiles)
 
 TODO:
-* Create 2d map object (tiles)
+* Finish 2d map objects
+  - Hill
+  - Wave
+  - Lake
+  - Land (v. large polys (always drawn first))
+* Create tile definitions
 * Create poly areas
 * Draw map from objects
   - Sorted objects by Y
+  - Set tile info from objects
 * Add actor objects
   - stored on map
 * Add basic UI
@@ -24,6 +31,7 @@ TODO:
 * LoS/FoV (simple circles)
 * Path finding (combination of fields) 
 * Increase line width via quads / rects / polys
+  - Hardish to do (vertex array?)
 * Add 'combat'
 * Add death
 * Add win conditions
