@@ -207,9 +207,11 @@ void test_drawing() {
     sf::RenderWindow window(sf::VideoMode(200, 200), "Wave Test");
     Random r;
     Drawing *mnt = Drawing::new_mountain(r, 100);
+    Drawing *tree = Drawing::new_tree(r, 80);
 
     window.clear(sf::Color(128, 128, 128, 0));
 	mnt->draw(window, 100, 180);
+	tree->draw(window, 110, 100);
     window.display();
     window_loop(window);
 }
