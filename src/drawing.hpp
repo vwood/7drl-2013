@@ -20,7 +20,10 @@ public:
     static Drawing *new_tree(Random &r, double size);
     static Drawing *new_hill(Random &r, double size);
     static Drawing *new_wave(Random &r, double size);
+    static Drawing *new_lake(Random &r, double size);
     static Drawing *new_land(Random &r, double size);
+
+    static Drawing *new_tower(Random &r, double size);
 };
 
 

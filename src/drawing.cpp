@@ -128,8 +128,61 @@ Drawing *Drawing::new_mountain(Random &r, double size) {
     return result;
 }
 
+Drawing *Drawing::new_tree(Random &r, double size) {
+	int n = 14;
+
+    int height = r.get_int(size * 1/2, size * 2/3);
+    int x = -(size/2), y = -height, w = size, h = height;
+    
+	DVector leavesx(n), leavesy(n);
+    DVector trunkx(4), trunky(4);
+
+	trunkx.set(0, x + w/2 - size/16);
+    trunky.set(0, y + height);
+    trunkx.set(1, x + w/2 - size/32);
+    trunky.set(1, y + height * 4 / 5);
+    trunkx.set(2, x + w/2 + size/32);
+    trunky.set(2, y + height * 4 / 5);
+    trunkx.set(3, x + w/2 + size/16);
+    trunky.set(3, y + height);
+    
+    leavesx.add_sin(size / 3, 0.0, 2.0);
+    leavesx.add_noise(r, 3.0);
+    leavesx.add(x + w/2);
+	leavesy.add_cos(height / 2, 0.0, 2.0);
+    leavesy.add_noise(r, 3.0);
+    leavesy.add(y + h*2/5);
+
+    sf::VertexArray *leaves_line, *trunk_line, *leaves_poly, *trunk_poly;
+    leaves_line = new sf::VertexArray(sf::LinesStrip, n + 1);
+    trunk_line = new sf::VertexArray(sf::LinesStrip, 4);
+    leaves_poly = new sf::VertexArray(sf::TrianglesFan, n);
+    trunk_poly = new sf::VertexArray(sf::TrianglesFan, 4);
+
+    set_vertexarray_to_dvectors(*leaves_line, 0, n, leavesx, leavesy);
+    (*leaves_line)[n].position = (*leaves_line)[0].position; // close the loop
+    set_vertexarray_to_dvectors(*trunk_line, 0, 4, trunkx, trunky);
+    set_vertexarray_to_dvectors(*leaves_poly, 0, n, leavesx, leavesy);
+    set_vertexarray_to_dvectors(*trunk_poly, 0, 4, trunkx, trunky);
+
+    set_vertexarray_to_color(*leaves_line, 0, n + 1, sf::Color::Black);
+    set_vertexarray_to_color(*trunk_line, 0, 4, sf::Color::Black);
+    set_vertexarray_to_color(*leaves_poly, 0, n, sf::Color(60, 180, 60, 255));
+    set_vertexarray_to_color(*trunk_poly, 0, 4, sf::Color(230, 200, 170, 255));
+    
+
+    Drawing *result = new Drawing();
+    result->v.push_back(leaves_poly);
+    result->v.push_back(leaves_line);
+    result->v.push_back(trunk_poly);
+    result->v.push_back(trunk_line);
+    return result;
+}
+
 /* TODO: */
-Drawing *Drawing::new_tree(Random &r, double size) { return NULL; }
 Drawing *Drawing::new_hill(Random &r, double size) { return NULL; }
 Drawing *Drawing::new_wave(Random &r, double size) { return NULL; }
+Drawing *Drawing::new_lake(Random &r, double size) { return NULL; }
 Drawing *Drawing::new_land(Random &r, double size) { return NULL; }
+
+Drawing *Drawing::new_tower(Random &r, double size) { return NULL; }
