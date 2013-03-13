@@ -1,12 +1,11 @@
 DONE: Add midpoint displacement to DVector 
+DONE: Create Poisson disc alg.
 
 TODO:
 * Create 2d map object (tiles)
-* Probably switch to a point struct - vector iteraton alone is probably worth it
-* Create Poisson disc alg.
 * Create poly areas
 * Draw map from objects
-* Sorted objects by Y
+  - Sorted objects by Y
 * Add actor objects
   - stored on map
 * Add basic UI
