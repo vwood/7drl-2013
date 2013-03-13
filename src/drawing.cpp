@@ -167,8 +167,8 @@ Drawing *Drawing::new_tree(Random &r, double size) {
 
     set_vertexarray_to_color(*leaves_line, 0, n + 1, sf::Color::Black);
     set_vertexarray_to_color(*trunk_line, 0, 4, sf::Color::Black);
-    set_vertexarray_to_color(*leaves_poly, 0, n, sf::Color(60, 180, 60, 255));
-    set_vertexarray_to_color(*trunk_poly, 0, 4, sf::Color(230, 200, 170, 255));
+    set_vertexarray_to_color(*leaves_poly, 0, n, sf::Color(0, 180, 120, 255)); // tree green
+    set_vertexarray_to_color(*trunk_poly, 0, 4, sf::Color(230, 200, 170, 255)); // trunk brown
     
 
     Drawing *result = new Drawing();

@@ -8,6 +8,7 @@ TODO:
   - Wave
   - Lake
   - Land (v. large polys (always drawn first))
+  - Replace colours with single colour list
 * Create tile definitions
 * Create poly areas
 * Draw map from objects

@@ -57,9 +57,16 @@ enum game_states Application::title_loop() {
     rs.setFillColor(sf::Color(120, 120, 250, 255));
 
     Random r;
+
+    // TODO: Change to use map_objects + draw
+
     Drawing *m1 = Drawing::new_mountain(r, 100);
     Drawing *m2 = Drawing::new_mountain(r, 100);
     Drawing *m3 = Drawing::new_mountain(r, 100);
+
+    Drawing *t1 = Drawing::new_tree(r, 80);
+    Drawing *t2 = Drawing::new_tree(r, 80);
+    Drawing *t3 = Drawing::new_tree(r, 50);
 
     bool quitting = false;
     // Start the game loop
@@ -99,15 +106,23 @@ enum game_states Application::title_loop() {
         window->clear(background);
         window->draw(rs);
         window->draw(text);
+        t3->draw(*window, 300.0, 170.0);
         m1->draw(*window, 120.0, 180.0);
         m2->draw(*window, 220.0, 180.0);
         m3->draw(*window, 170.0, 220.0);
+        t1->draw(*window, 50.0, 240.0);
+        t2->draw(*window, 90.0, 260.0);
+
         window->display();
     }
 
     delete m1;
     delete m2;
     delete m3;
+    
+    delete t1;
+    delete t2;
+    delete t3;
     
     return QUIT;
 }
