@@ -212,3 +212,41 @@ Drawing *Drawing::new_land(Random &r, double size) { return NULL; }
 Drawing *Drawing::new_tower(Random &r, double size) { return NULL; }
 Drawing *Drawing::new_keep(Random &r, double size) { return NULL; }
 Drawing *Drawing::new_hut(Random &r, double size) { return NULL; }
+
+Drawing *Drawing::new_shield(Random &r, double size) {
+	int n = 7;
+    int x = -(size/2), y = -(size/2), w = size, h = size;
+
+	DVector shieldx(n+1), shieldy(n+1);
+
+	shieldx.set(0, x);
+    shieldy.set(0, y);
+    shieldx.set(1, x);
+    shieldy.set(1, y+h/2);
+    shieldx.set(2, x+w/8);
+    shieldy.set(2, y+h*7/8);
+    shieldx.set(3, x+w/2);
+    shieldy.set(3, y+h);
+    shieldx.set(4, x+w*7/8);
+    shieldy.set(4, y+h*7/8);
+    shieldx.set(5, x+w);
+    shieldy.set(5, y+h/2);
+    shieldx.set(6, x+w);
+    shieldy.set(6, y);
+    shieldx.set(7, x);
+    shieldy.set(7, y);
+
+    sf::VertexArray *shield_line, *shield_poly;
+    shield_line = new sf::VertexArray(sf::LinesStrip, n + 1);
+    shield_poly = new sf::VertexArray(sf::TrianglesFan, n);
+
+    set_vertexarray_to_dvectors(*shield_line, 0, n + 1, shieldx, shieldy);
+    set_vertexarray_to_color(*shield_line, 0, n + 1, sf::Color::Black); 
+    set_vertexarray_to_dvectors(*shield_poly, 0, n, shieldx, shieldy);
+    set_vertexarray_to_color(*shield_poly, 0, n, sf::Color(200, 100, 230, 255)); // Whichever Shield Colour
+
+    Drawing *result = new Drawing();
+    result->v.push_back(shield_poly);
+    result->v.push_back(shield_line);
+    return result;
+}

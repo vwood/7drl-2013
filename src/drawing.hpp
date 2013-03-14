@@ -26,6 +26,8 @@ public:
     static Drawing *new_tower(Random &r, double size);
     static Drawing *new_keep(Random &r, double size);
     static Drawing *new_hut(Random &r, double size);
+
+    static Drawing *new_shield(Random &r, double size);
 };
 
 

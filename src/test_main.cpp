@@ -249,6 +249,19 @@ void test_spline() {
     window_loop(window);
 }
 
+void test_shield() {
+    // Create the main window
+    sf::RenderWindow window(sf::VideoMode(200, 200), "Wave Test");
+    Random r;
+
+    window.clear(sf::Color(128, 128, 128, 0));
+
+    Drawing *shield = Drawing::new_shield(r, 100);
+	shield->draw(window, 100, 100);
+    window.display();
+    window_loop(window);
+}
+
 
 int main() {
 //    test_wave();
@@ -256,7 +269,8 @@ int main() {
 //    test_mnt();
 //    test_poisson();
 //    test_drawing();
-    test_spline();
+//    test_spline();
+    test_shield();
     
     return 0;
 }
