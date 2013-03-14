@@ -218,12 +218,45 @@ void test_drawing() {
     window_loop(window);
 }
 
+void test_spline() {
+    // Create the main window
+    sf::RenderWindow window(sf::VideoMode(200, 200), "Wave Test");
+    Random r;
+
+    window.clear(sf::Color(128, 128, 128, 0));
+
+    DVector s(6), splinex(26), spliney(26);
+
+    s.set(0, 10.0);
+    s.set(1, 90.0);
+    s.set(2, 70.0);
+    s.set(3, 130.0);
+    s.set(4, 110.0);
+    s.set(5, 190.0);
+    splinex.set_to_spline(&s);
+    s.set(0, 180.0);
+    s.set(1, 170.0);
+    s.set(2, 60.0);
+    s.set(3, 60.0);
+    s.set(4, 170.0);
+    s.set(5, 180.0);
+    spliney.set_to_spline(&s);
+
+    sf::VertexArray va(sf::LinesStrip, 26);
+    set_vertexarray_to_dvectors(va, 26, splinex, spliney);
+    window.draw(va);
+    window.display();
+    window_loop(window);
+}
+
+
 int main() {
 //    test_wave();
 //    parse("resources/test.txt");
 //    test_mnt();
 //    test_poisson();
-    test_drawing();
+//    test_drawing();
+    test_spline();
     
     return 0;
 }

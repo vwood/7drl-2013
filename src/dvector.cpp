@@ -36,6 +36,46 @@ void DVector::set(int index, double value) {
 }
 
 /*
+ * Helper function for Catmull-Rom splines (goes through all points) 
+ * t is the fraction between 0 and 1 that the point is between p1 & p2
+ */ 
+double catmull_rom(double t, double p0, double p1, double p2, double p3) {
+    return p1 + 0.5 * ((p2 - p0) * t + (2*p0 - 5*p1 + 4*p2 - p3) * (t*t) + (3*p1 - p0 - 3*p2 + p3) * (t*t*t));
+}
+
+/*
+ * Sets the DVector to be a spline defined by the points in the other DVector
+ *
+ * For now, the first point and last point are not reached by the spline
+ *
+ * This DVector should have a number of points equal to:
+ *  
+ *   k(n-1)+1
+ *
+ * Where n is the number in the other DVector, and k is some multiple
+ */
+void DVector::set_to_spline(DVector *other) {
+    int size = this->v.size();
+    int osize = other->v.size();
+    int section_count = osize - 1;
+    int section_size = (size - 1) / section_count;
+    
+    for (int i = 0; i < size - 1; i++) {
+        int section = i / (osize-1);
+        double t, x0, x1, x2, x3;
+        t = (i % section_size) / (double)section_size;
+        x0 = other->v[max(0,section-1)];
+        x1 = other->v[section];
+        x2 = other->v[section+1];
+        x3 = other->v[min(section+2, osize-1)];
+        this->v[i] = catmull_rom(t, x0, x1, x2, x3);
+    }
+
+    // Last vertex is a special case
+    this->v[size-1] = other->v[osize-1];
+}
+
+/*
  * Add the values from another vector to this one.
  * Only adds up to the shorted vector.
  */
