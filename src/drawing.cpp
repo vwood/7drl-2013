@@ -210,3 +210,5 @@ Drawing *Drawing::new_lake(Random &r, double size) { return NULL; }
 Drawing *Drawing::new_land(Random &r, double size) { return NULL; }
 
 Drawing *Drawing::new_tower(Random &r, double size) { return NULL; }
+Drawing *Drawing::new_keep(Random &r, double size) { return NULL; }
+Drawing *Drawing::new_hut(Random &r, double size) { return NULL; }

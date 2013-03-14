@@ -24,6 +24,8 @@ public:
     static Drawing *new_land(Random &r, double size);
 
     static Drawing *new_tower(Random &r, double size);
+    static Drawing *new_keep(Random &r, double size);
+    static Drawing *new_hut(Random &r, double size);
 };
 
 
