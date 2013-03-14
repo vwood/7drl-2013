@@ -208,10 +208,12 @@ void test_drawing() {
     Random r;
     Drawing *mnt = Drawing::new_mountain(r, 100);
     Drawing *tree = Drawing::new_tree(r, 80);
+    Drawing *wave = Drawing::new_wave(r, 80);
 
     window.clear(sf::Color(128, 128, 128, 0));
 	mnt->draw(window, 100, 180);
 	tree->draw(window, 110, 100);
+	wave->draw(window, 100, 80);
     window.display();
     window_loop(window);
 }

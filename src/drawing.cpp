@@ -179,9 +179,33 @@ Drawing *Drawing::new_tree(Random &r, double size) {
     return result;
 }
 
-/* TODO: */
 Drawing *Drawing::new_hill(Random &r, double size) { return NULL; }
-Drawing *Drawing::new_wave(Random &r, double size) { return NULL; }
+
+Drawing *Drawing::new_wave(Random &r, double size) {
+	int n = 32 + 1;
+
+    int height = r.get_int(size * 1/2, size * 2/3);
+    int x = -(size/2), y = -height, w = size, h = height;
+    
+	DVector wavex(n), wavey(n);
+
+    wavex.add_linear(x, x + w);
+	wavey.add_cos(h / 3, 0.0, 4.0);
+    wavey.map_abs();
+    wavey.add(y);
+
+    sf::VertexArray *wave_line;
+    wave_line = new sf::VertexArray(sf::LinesStrip, n);
+
+    set_vertexarray_to_dvectors(*wave_line, 0, n, wavex, wavey);
+
+    set_vertexarray_to_color(*wave_line, 0, n, sf::Color(100, 180, 255, 255)); // Wave blue
+
+    Drawing *result = new Drawing();
+    result->v.push_back(wave_line);
+    return result;
+}
+
 Drawing *Drawing::new_lake(Random &r, double size) { return NULL; }
 Drawing *Drawing::new_land(Random &r, double size) { return NULL; }
 
