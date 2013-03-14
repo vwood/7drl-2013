@@ -5,6 +5,7 @@
 #include "dvector.hpp"
 #include "drawing.hpp"
 #include "parse.hpp"
+#include "map.hpp"
 #include "poisson.hpp"
 
 using namespace std;
@@ -262,6 +263,20 @@ void test_shield() {
     window_loop(window);
 }
 
+void test_map() {
+    // Create the main window
+    sf::RenderWindow window(sf::VideoMode(200, 200), "Map Test");
+    Random r;
+
+    window.clear(sf::Color(128, 128, 128, 0));
+
+    Map m(10, 10);
+    m.fill_randomly(r);
+	m.draw(window, 0, 0, 200, 200);
+    window.display();
+    window_loop(window);
+}
+
 
 int main() {
 //    test_wave();
@@ -270,7 +285,7 @@ int main() {
 //    test_poisson();
 //    test_drawing();
 //    test_spline();
-    test_shield();
-    
+//    test_shield();
+    test_map();
     return 0;
 }
