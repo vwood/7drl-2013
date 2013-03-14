@@ -9,10 +9,14 @@ TODO:
   - Lake
   - Land (v. large polys (always drawn first))
   - Replace colours with single colour list
+  - Display type of tile by blocks of colour under the map objects
 * Create tile definitions
-* Create poly areas
+** Create poly areas
+   - just use random maps for now
+   - Generate poisson positions limited to a poly
 * Draw map from objects
   - Sorted objects by Y
+  - Separated in to different vectors based on Y? - allows for us to avoid drawing everything
   - Set tile info from objects
 * Add actor objects
   - stored on map
@@ -20,20 +24,21 @@ TODO:
   - 2 panels
 * Add basic AI (chase player)
   - and scripting/events - countdown to generation from caves
-* Improve AI (chase nearest)
+** Improve AI (chase nearest)
   - AI should store current task, only change with turn delay (i.e. plan ahead one)
 * Add troops
-* Add troopeffects
+** Add troopeffects
   - Block enemies
   - Healing
   - Reveal enemies current AI task
   - Stealth
   - Extra sight
-* LoS/FoV (simple circles)
+** LoS/FoV (simple circles)
 * Path finding (combination of fields) 
-* Increase line width via quads / rects / polys
-  - Hardish to do (vertex array?)
+  - tiles block movement
 * Add 'combat'
 * Add death
-* Add win conditions
-* Time limit? 7 game days?
+** Add win conditions
+** Time limit? 7 game days?
+*** Increase line width via quads / rects / polys
+   - Hardish to do (vertex array?)
