@@ -272,6 +272,17 @@ void test_map() {
     window_loop(window);
 }
 
+void test_lake() {
+    sf::RenderWindow window(sf::VideoMode(200, 200), "Map Test");
+    Random r;
+
+    window.clear(sf::Color(128, 128, 128, 0));
+    Drawing * lake = Drawing::new_lake(r, 100);
+	lake->draw(window, 100, 100);
+    window.display();
+    window_loop(window);
+}
+
 void test_island_gen() {
     sf::RenderWindow window(sf::VideoMode(200, 200), "Map Test");
     Random r;
@@ -305,6 +316,7 @@ int main() {
 //    test_spline();
 //    test_shield();
 //    test_map();
-    test_island_gen();
+    test_lake();
+//    test_island_gen();
     return 0;
 }

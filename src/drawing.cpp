@@ -206,7 +206,35 @@ Drawing *Drawing::new_wave(Random &r, double size) {
     return result;
 }
 
-Drawing *Drawing::new_lake(Random &r, double size) { return NULL; }
+Drawing *Drawing::new_lake(Random &r, double size) {
+	int n = 16;
+
+    int height = r.get_int(size * 1/2, size * 2/3);
+    int x = -(size/2), y = -height, w = size, h = height;
+    
+	DVector lakex(n), lakey(n);
+
+    lakex.add_sin(w / 3, 0.0, 2.0);
+	lakey.add_cos(h / 3, 0.0, 2.0);
+
+    lakex.add_noise(r, -4.0, 4.0);
+	lakey.add_noise(r, -4.0, 4.0);
+
+    lakex.add(x);
+    lakey.add(y);
+
+    sf::VertexArray *lake;
+    lake = new sf::VertexArray(sf::TrianglesFan, n);
+
+    set_vertexarray_to_dvectors(*lake, 0, n, lakex, lakey);
+    set_vertexarray_to_color(*lake, 0, n, sf::Color(30, 130, 200, 255)); // Lake blue
+
+    Drawing *result = new Drawing();
+    result->v.push_back(lake);
+    return result;
+}
+
+
 Drawing *Drawing::new_land(Random &r, double size) { return NULL; }
 
 Drawing *Drawing::new_tower(Random &r, double size) { return NULL; }
