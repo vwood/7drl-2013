@@ -68,7 +68,7 @@ void test_dvector() {
 
     DVector v(20);
     print_vector(v.get());
-    v.add_noise(r, 10.0);
+    v.add_noise(r, -10.0, 10.0);
     print_vector(v.get());
     v.clear();
     print_vector(v.get());
@@ -88,7 +88,6 @@ void set_vertexarray_to_dvectors(sf::VertexArray &va, int n, DVector &xs, DVecto
 }
 
 void test_circle() {
-    // Create the main window
     sf::RenderWindow window(sf::VideoMode(400, 400), "Circle Test");
     Random r;
 
@@ -108,7 +107,6 @@ void test_circle() {
 }
 
 void test_wave() {
-    // Create the main window
     sf::RenderWindow window(sf::VideoMode(200, 200), "Wave Test");
     Random r;
 
@@ -119,10 +117,10 @@ void test_wave() {
 	for (int i = 0; i < 6; i++) {
 		DVector xs(n), ys(n);
 		xs.add_linear(20.0 + (i % 2) * 20.0, 160.0 + (i % 2) * 20);
-		//xs.add_noise(r, 2.0);
+		//xs.add_noise(r, -2.0, 2.0);
 		ys.add_sin(16.0, 0.5, 4.5);
 		ys.map_abs();
-		//ys.add_noise(r, 2.0);
+		//ys.add_noise(r, -2.0, 2.0);
 		ys.add(20.0 + i * 30.0);
 	
 		sf::VertexArray lines(sf::LinesStrip, n);
@@ -140,7 +138,6 @@ void test_wave() {
 }
 
 void test_mnt() {
-    // Create the main window
     sf::RenderWindow window(sf::VideoMode(200, 200), "Wave Test");
     Random r;
 	cout << r.get_seed() << endl;
@@ -187,7 +184,6 @@ void test_mnt() {
 }
 
 void test_poisson() {
-    // Create the main window
     sf::RenderWindow window(sf::VideoMode(200, 200), "Wave Test");
     Random r;
 	Poisson p;
@@ -207,7 +203,6 @@ void test_poisson() {
 }
 
 void test_drawing() {
-    // Create the main window
     sf::RenderWindow window(sf::VideoMode(200, 200), "Wave Test");
     Random r;
     Drawing *mnt = Drawing::new_mountain(r, 100);
@@ -223,7 +218,6 @@ void test_drawing() {
 }
 
 void test_spline() {
-    // Create the main window
     sf::RenderWindow window(sf::VideoMode(200, 200), "Wave Test");
     Random r;
 
@@ -254,7 +248,6 @@ void test_spline() {
 }
 
 void test_shield() {
-    // Create the main window
     sf::RenderWindow window(sf::VideoMode(200, 200), "Wave Test");
     Random r;
 
@@ -267,7 +260,6 @@ void test_shield() {
 }
 
 void test_map() {
-    // Create the main window
     sf::RenderWindow window(sf::VideoMode(200, 200), "Map Test");
     Random r;
 
@@ -280,6 +272,28 @@ void test_map() {
     window_loop(window);
 }
 
+void test_island_gen() {
+    sf::RenderWindow window(sf::VideoMode(200, 200), "Map Test");
+    Random r;
+
+    window.clear(sf::Color(128, 128, 128, 0));
+    int n = 32;
+    DVector xs(n), ys(n), noise(n);
+    noise.add_noise(r, 0.3, 1.3);
+    xs.add_sin(1, 0.0, 2.0);
+    ys.add_cos(1, 0.0, 2.0);
+    xs.multiply(&noise);
+    ys.multiply(&noise);
+    xs.multiply(80);
+    ys.multiply(80);
+    xs.add(100);
+    ys.add(100);    
+    sf::VertexArray va(sf::TrianglesFan, n);
+    set_vertexarray_to_dvectors(va, n, xs, ys);
+    window.draw(va);
+    window.display();
+    window_loop(window);
+}
 
 int main() {
 //    test_wave();
@@ -289,6 +303,7 @@ int main() {
 //    test_drawing();
 //    test_spline();
 //    test_shield();
-    test_map();
+//    test_map();
+    test_island_gen();
     return 0;
 }

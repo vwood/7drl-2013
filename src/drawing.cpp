@@ -147,10 +147,10 @@ Drawing *Drawing::new_tree(Random &r, double size) {
     trunky.set(3, y + height);
     
     leavesx.add_sin(size / 3, 0.0, 2.0);
-    leavesx.add_noise(r, 3.0);
+    leavesx.add_noise(r, -3.0, 3.0);
     leavesx.add(x + w/2);
 	leavesy.add_cos(height / 2, 0.0, 2.0);
-    leavesy.add_noise(r, 3.0);
+    leavesy.add_noise(r, -3.0, 3.0);
     leavesy.add(y + h*2/5);
 
     sf::VertexArray *leaves_line, *trunk_line, *leaves_poly, *trunk_poly;

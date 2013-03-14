@@ -3,7 +3,6 @@
 #include "map.hpp"
 
 Map::Map(int w, int h) : w(w), h(h) {
-    tile_count = 5;
     tiles = new enum tile_type *[w];
     for (int i = 0; i < w; i++) {
         tiles[i] = new enum tile_type[h];
@@ -34,6 +33,32 @@ sf::Color Map::get_tile_color(enum tile_type tile) {
     }
 }
 
+bool Map::tile_blocks_move(enum tile_type tile) {
+    switch (tile) {
+    case PLAIN_TILE:
+    case HILLS_TILE:
+    case FOREST_TILE:
+        return false;
+    case WATER_TILE:
+    case MOUNTAIN_TILE:
+    default:
+        return true;
+    }
+}
+
+bool Map::tile_blocks_sight(enum tile_type tile) {
+    switch (tile) {
+    case PLAIN_TILE:
+        return false;
+    case HILLS_TILE:
+    case FOREST_TILE:
+    case WATER_TILE:
+    case MOUNTAIN_TILE:
+    default:
+        return true;
+    }
+}
+
 void Map::fill_randomly(Random &r) {
     for (int i = 0; i < w; i++) {
         for (int j = 0; j < h; j++) {
@@ -41,6 +66,16 @@ void Map::fill_randomly(Random &r) {
         }
     }
 }
+
+/*
+ * Adds a map object to the map
+ *
+ * Here we map the object to tiles. 
+ */
+void Map::add_object(Map_Object *object) {
+
+}
+
 
 void Map::draw(sf::RenderWindow &r, double x, double y, double w, double h) {
     /* TODO : display this with an offset, and fixed tile size */

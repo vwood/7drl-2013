@@ -1,23 +1,21 @@
 DONE: Add midpoint displacement to DVector 
 DONE: Create Poisson disc alg.
 DONE: Create 2d map object (tiles)
+DONE: Create tile definitions
 
 TODO:
 * Finish 2d map objects
   - Hill
-  - Wave
   - Lake
   - Land (v. large polys (always drawn first))
   - Replace colours with single colour list
-  - Display type of tile by blocks of colour under the map objects
-* Create tile definitions
+  DONE: Display type of tile by blocks of colour under the map objects
 ** Create poly areas
    - just use random maps for now
    - Generate poisson positions limited to a poly
 * Draw map from objects
   - Sorted objects by Y
   - Separated in to different vectors based on Y? - allows for us to avoid drawing everything
-  - Set tile info from objects
 * Add actor objects
   - stored on map
 * Add basic UI
@@ -38,6 +36,7 @@ TODO:
   - tiles block movement
 * Add 'combat'
 * Add death
+* Improve text rendering (multiple colours, etc)
 ** Add win conditions
 ** Time limit? 7 game days?
 *** Increase line width via quads / rects / polys

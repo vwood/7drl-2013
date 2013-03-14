@@ -18,13 +18,17 @@ enum tile_type {
 class Map {
 private:
     int w, h;
-    int tile_count;
+    
     enum tile_type **tiles;
     std::vector<Map_Object*> map_objects;
 
+    static const int tile_count = 5;
     static sf::Color get_tile_color(enum tile_type tile);
+    static bool tile_blocks_move(enum tile_type tile);
+    static bool tile_blocks_sight(enum tile_type tile);
     
 public:
+
     Map(int w, int h);
     ~Map();
 

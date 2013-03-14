@@ -95,9 +95,18 @@ void DVector::add(double offset) {
 }
 
 /*
- * Scale the vector by the given value
+ * Multiply the vector by the values in the other vector
  */
-void DVector::scale(double factor) {
+void DVector::multiply(DVector *other) {
+    for (vector<double>::iterator it = v.begin(), oit = other->v.begin(); oit != other->v.end() && it != v.end(); oit++, it++) {
+        *it = *it * *oit;
+    }
+}
+
+/*
+ * Multiply the vector by the given value
+ */
+void DVector::multiply(double factor) {
     for (vector<double>::iterator it = v.begin(); it != v.end(); it++) {
         *it = *it * factor;
     }
@@ -150,9 +159,9 @@ void DVector::add_cos(double scale, double start, double end) {
 /*
  * Add noise to the vector.
  */
-void DVector::add_noise(Random &r, double scale) {
+void DVector::add_noise(Random &r, double min, double max) {
     for (vector<double>::iterator it = v.begin(); it != v.end(); it++) {
-        *it = *it + r.get_double(-scale, scale);
+        *it = *it + r.get_double(min, max);
     }
 }
 

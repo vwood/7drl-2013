@@ -19,12 +19,14 @@ public:
     
     void add(DVector *other);
     void add(double offset);
-    void scale(double factor);
-	
+
+    void multiply(DVector *other);
+    void multiply(double factor);
+    
     void add_linear(double start, double end);
 	void add_sin(double scale, double start, double end);
     void add_cos(double scale, double start, double end);
-    void add_noise(Random &r, double scale);
+    void add_noise(Random &r, double min, double max);
 
 	void map_sin();
 	void map_cos();
