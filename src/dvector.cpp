@@ -247,6 +247,26 @@ void DVector::map_midpoint_displacement(Random &r, double min, double max) {
     }
 }
 
+/*
+ * Performs wrapped midpoint displacement to the vector.
+ *
+ * add_noise() first (starting points are 0, and size/2)
+ */
+void DVector::map_wrapped_midpoint_displacement(Random &r, double min, double max) {
+	int size = v.size();
+	double displacement[size + 1];
+	displacement[0] = v[0];
+	displacement[size/2] = v[size/2];
+	displacement[size] = v[0];
+	midpoint_displacement(r, displacement, 0, size/2, min, max);
+	midpoint_displacement(r, displacement, size/2, size, min, max);
+	int i;
+	vector<double>::iterator it;
+    for (i = 0, it = v.begin(); it != v.end(); i++, it++) {
+        *it = displacement[i];
+    }
+}
+
 const vector<double> &DVector::get() {
     return v;
 }

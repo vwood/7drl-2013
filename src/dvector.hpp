@@ -33,6 +33,7 @@ public:
 	void map_abs();
 	void map_neg();
 	void map_midpoint_displacement(Random &r, double min, double max);
+	void map_wrapped_midpoint_displacement(Random &r, double min, double max);
 
     const std::vector<double> &get();
 };

@@ -280,6 +280,7 @@ void test_island_gen() {
     int n = 32;
     DVector xs(n), ys(n), noise(n);
     noise.add_noise(r, 0.3, 1.3);
+    noise.map_wrapped_midpoint_displacement(r, -0.2, 1.2);    
     xs.add_sin(1, 0.0, 2.0);
     ys.add_cos(1, 0.0, 2.0);
     xs.multiply(&noise);
