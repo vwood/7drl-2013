@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
 #include <iostream>
 #include <vector>
 #include "random.hpp"
@@ -37,7 +38,9 @@ void window_loop(sf::RenderWindow &window) {
                     window.close();
 				}
 			}
+            
 		}
+        sf::sleep(sf::seconds(0.1f));
 	}
 }
 
