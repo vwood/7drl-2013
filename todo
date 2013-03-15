@@ -6,13 +6,15 @@ DONE: Create tile definitions
 TODO:
 * Finish 2d map objects
   - Hill
-  - Lake
+  DONE: Lake
   - Land (v. large polys (always drawn first))
   - Replace colours with single colour list
   DONE: Display type of tile by blocks of colour under the map objects
 ** Create poly areas
-   - just use random maps for now
+   DONE: just use random maps for now
    - Generate poisson positions limited to a poly
+     - No: Colour them based on their proximity to higher points/poly?
+     - Can have surrounding rectangle for water
 * Draw map from objects
   - Sorted objects by Y
   - Separated in to different vectors based on Y? - allows for us to avoid drawing everything

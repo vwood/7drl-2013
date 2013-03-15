@@ -7,6 +7,7 @@
 #include "drawing.hpp"
 #include "parse.hpp"
 #include "map.hpp"
+#include "map_object.hpp"
 #include "poisson.hpp"
 
 using namespace std;
@@ -265,8 +266,8 @@ void test_map() {
 
     window.clear(sf::Color(128, 128, 128, 0));
 
-    Map m(10, 10);
-    m.fill_randomly(r);
+    Map m(200, 200, 20, 20);
+    m.fill_tiles_randomly(r);
 	m.draw(window, 0, 0, 200, 200);
     window.display();
     window_loop(window);
@@ -307,6 +308,18 @@ void test_island_gen() {
     window_loop(window);
 }
 
+void test_map_objects() {
+    sf::RenderWindow window(sf::VideoMode(200, 200), "Map Test");
+    Random r;
+    window.clear(sf::Color(128, 128, 128, 0));
+    Map m(200, 200, 10, 10);
+    m.fill_tiles_randomly(r);
+    m.fill_objects_randomly(r);
+    m.draw(window, 0, 0, 200, 200);
+    window.display();
+    window_loop(window);
+}
+
 int main() {
 //    test_wave();
 //    parse("resources/test.txt");
@@ -316,7 +329,8 @@ int main() {
 //    test_spline();
 //    test_shield();
 //    test_map();
-    test_lake();
+//    test_lake();
 //    test_island_gen();
+    test_map_objects();    
     return 0;
 }
