@@ -109,32 +109,30 @@ Drawing *Map::create_tile_object(Random &r, enum tile_type tile) {
 void Map::fill_tiles_randomly(Random &r) {
     for (int i = 0; i < tilemap_w; i++) {
         for (int j = 0; j < tilemap_h; j++) {
-            tilemap[i][j] = (enum tile_type) r.get_int(0, tile_count-1);
+            tilemap[i][j] = (enum tile_type) r.get_int(0, tile_count);
         }
     }
 }
 
 void Map::fill_objects_randomly(Random &r) {
     Poisson p;
-    double radius = (max(tile_w, tile_h) / 2.0);
+    double radius = (max(tile_w, tile_h) / 4.0);
     radius = sqrt(2 * (radius * radius));
-    p.generate(r, map_w, map_h, radius, 40, 10);
+    p.generate(r, map_w, map_h, radius, 120);
 
     const std::vector<double> &xs = p.get_x();
     const std::vector<double> &ys = p.get_y();
-
-    for (std::vector<double>::const_iterator xit = xs.begin(); xit != xs.end(); xit++) {
-        for (std::vector<double>::const_iterator yit = ys.begin(); yit != ys.end(); yit++) {
-            int x = *xit / tile_w;
-            int y = *yit / tile_h;
-            if (x < 0 || x >= tilemap_w || y < 0 || y >= tilemap_h) {
-                cerr << "Error: poisson generated outside tilemap. " << x << "x" << y << endl;
-                continue;
-            }
-            Drawing *d = create_tile_object(r, tilemap[x][y]);
-            if (d != NULL) {
-                map_objects.push_back(new Map_Object(d, *xit, *yit));
-            }
+    for (std::vector<double>::const_iterator xit = xs.begin(), yit = ys.begin();
+         xit != xs.end() && yit != ys.end(); xit++, yit++) { 
+        int x = *xit / tile_w;
+        int y = *yit / tile_h;
+        if (x < 0 || x >= tilemap_w || y < 0 || y >= tilemap_h) {
+            cerr << "Error: poisson generated outside tilemap. " << x << "x" << y << endl;
+            continue;
+        }
+        Drawing *d = create_tile_object(r, tilemap[x][y]);
+        if (d != NULL) {
+            map_objects.push_back(new Map_Object(d, *xit, *yit));
         }
     }
 }

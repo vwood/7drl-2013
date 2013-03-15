@@ -192,7 +192,7 @@ Drawing *Drawing::new_wave(Random &r, double size) {
     wavex.add_linear(x, x + w);
 	wavey.add_cos(h / 3, 0.0, 4.0);
     wavey.map_abs();
-    wavey.add(y);
+//    wavey.add(y);
 
     sf::VertexArray *wave_line;
     wave_line = new sf::VertexArray(sf::LinesStrip, n);

@@ -3,5 +3,5 @@
 #include "map_object.hpp"
 
 void Map_Object::draw(sf::RenderWindow &r, double x, double y) {
-    drawing->draw(r, x, y);
+    drawing->draw(r, this->x + x, this->y + y);
 }

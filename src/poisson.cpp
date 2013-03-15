@@ -34,7 +34,7 @@ double Poisson::min_dist2_to(double x, double y) {
  * k = number of alternatives to test
  * n = total number of points to generate
  */
-void Poisson::generate(Random &r, int w, int h, double radius2, int k, int n) {
+void Poisson::generate(Random &r, int w, int h, double radius2, int n, int k) {
 	xs.push_back(r.get_double(0, w));
 	ys.push_back(r.get_double(0, h));
 

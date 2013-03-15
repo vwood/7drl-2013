@@ -15,7 +15,7 @@ private:
 public:
     Poisson() {};
 	
-	void generate(Random &r, int w, int h, double radius, int k, int n);
+	void generate(Random &r, int w, int h, double radius, int n, int k=10);
 	
     const std::vector<double> &get_x();
     const std::vector<double> &get_y();

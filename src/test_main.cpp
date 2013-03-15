@@ -203,6 +203,29 @@ void test_poisson() {
 	window_loop(window);
 }
 
+void test_poisson2(int w, int h, int radius) {
+    sf::RenderWindow window(sf::VideoMode(w, h), "Wave Test");
+    Random r;
+	Poisson p;
+    
+    p.generate(r, w, h, radius, 40);
+    
+	window.clear(sf::Color::Black);
+	sf::CircleShape cs(radius, 8);
+	for (vector<double>::const_iterator xit = p.get_x().begin(), yit = p.get_y().begin();
+		 xit != p.get_x().end() && yit != p.get_y().end(); xit++, yit++) {
+		cs.setPosition(*xit, *yit);
+		window.draw(cs);
+	}
+	window.display();
+
+    cerr << p.get_x().size() << endl;
+
+	window_loop(window);
+}
+
+
+
 void test_drawing() {
     sf::RenderWindow window(sf::VideoMode(200, 200), "Wave Test");
     Random r;
@@ -213,7 +236,13 @@ void test_drawing() {
     window.clear(sf::Color(128, 128, 128, 0));
 	mnt->draw(window, 100, 180);
 	tree->draw(window, 110, 100);
-	wave->draw(window, 100, 80);
+	wave->draw(window, 100, 40);
+
+	sf::CircleShape cs(2, 4);
+    cs.setPosition(100, 40);
+    window.draw(cs);
+
+    
     window.display();
     window_loop(window);
 }
@@ -308,14 +337,14 @@ void test_island_gen() {
     window_loop(window);
 }
 
-void test_map_objects() {
-    sf::RenderWindow window(sf::VideoMode(200, 200), "Map Test");
+void test_map_objects(int w, int h) {
+    sf::RenderWindow window(sf::VideoMode(w, h), "Map Test");
     Random r;
     window.clear(sf::Color(128, 128, 128, 0));
-    Map m(200, 200, 10, 10);
+    Map m(w, h, 40, 40);
     m.fill_tiles_randomly(r);
     m.fill_objects_randomly(r);
-    m.draw(window, 0, 0, 200, 200);
+    m.draw(window, 0, 0, w, h);
     window.display();
     window_loop(window);
 }
@@ -325,12 +354,13 @@ int main() {
 //    parse("resources/test.txt");
 //    test_mnt();
 //    test_poisson();
-//    test_drawing();
+    test_poisson2(400, 400, 28.28);
+    test_drawing();
 //    test_spline();
 //    test_shield();
 //    test_map();
 //    test_lake();
 //    test_island_gen();
-    test_map_objects();    
+    test_map_objects(400, 400);
     return 0;
 }
