@@ -7,6 +7,7 @@
 class Drawing;
 class Random;
 class Map_Object;
+class Entity;
 
 enum tile_type {
     PLAIN_TILE,
@@ -27,9 +28,10 @@ private:
     /* In tiles - entire map */
     int tilemap_w, tilemap_h;
 
-    
     enum tile_type **tilemap;
     std::vector<Map_Object*> map_objects;
+
+    std::vector<Entity*> entities;
 
     static const int tile_count = 5;
     static sf::Color get_tile_color(enum tile_type tile);
