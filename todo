@@ -40,6 +40,5 @@ TODO:
 * Add death
 * Improve text rendering (multiple colours, etc)
 ** Add win conditions
-** Time limit? 7 game days?
 *** Increase line width via quads / rects / polys
    - Hardish to do (vertex array?)
