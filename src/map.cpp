@@ -5,7 +5,9 @@
 #include "random.hpp"
 #include "drawing.hpp"
 #include "poisson.hpp"
+#include "poly.hpp"
 #include "map_object.hpp"
+#include "map_color.hpp"
 #include "map.hpp"
 
 using namespace std;
@@ -37,17 +39,17 @@ Map::~Map() {
 sf::Color Map::get_tile_color(enum tile_type tile) {
     switch (tile) {
     case PLAIN_TILE:
-        return sf::Color(240, 240, 240, 255);
+        return Map_Color::plains;
     case FOREST_TILE:
-        return sf::Color(50, 220, 120, 255);
+        return Map_Color::forest;
     case HILLS_TILE:
-        return sf::Color(240, 210, 180, 255);
+        return Map_Color::hills; 
     case WATER_TILE:
-        return sf::Color(50, 120, 220, 255);
+        return Map_Color::water;        
     case MOUNTAIN_TILE:
-        return sf::Color(180, 180, 180, 255);
+        return Map_Color::mountain;        
     default:
-        return sf::Color(255, 0, 255, 255); // Angry Magenta Error
+        return Map_Color::error;
     }
 }
 
@@ -118,7 +120,7 @@ void Map::fill_objects_randomly(Random &r) {
     Poisson p;
     double radius = (max(tile_w, tile_h) / 4.0);
     radius = sqrt(2 * (radius * radius));
-    p.generate(r, map_w, map_h, radius, 120);
+    p.generate(r, map_w, map_h, radius, tilemap_w * tilemap_h);
 
     const std::vector<double> &xs = p.get_x();
     const std::vector<double> &ys = p.get_y();
@@ -133,6 +135,79 @@ void Map::fill_objects_randomly(Random &r) {
         Drawing *d = create_tile_object(r, tilemap[x][y]);
         if (d != NULL) {
             map_objects.push_back(new Map_Object(d, *xit, *yit));
+        }
+    }
+}
+
+/*
+ * Generate a map from random polygons - tiles get associated with the nearest polygon to them.
+ *
+ * Square polygon surrounds the world with water (or anything impassable really)
+ */
+void Map::poly_tile_generation(Random &r) {
+    vector<Poly *> polys;
+    vector<enum tile_type> poly_type;
+
+    // outer water
+    Poly *p = new Poly();
+    p->add(0, 0).add(tilemap_w, 0).add(tilemap_w, tilemap_h).add(0, tilemap_h);
+    polys.push_back(p);
+    poly_type.push_back(WATER_TILE);
+
+    p = new Poly();
+    p->add(r.get_int(1, tilemap_w-1),r.get_int(1, tilemap_h-1))
+        .add(r.get_int(1, tilemap_w-1),r.get_int(1, tilemap_h-1))
+        .add(r.get_int(1, tilemap_w-1),r.get_int(1, tilemap_h-1))
+        .add(r.get_int(1, tilemap_w-1),r.get_int(1, tilemap_h-1))
+        .add(r.get_int(1, tilemap_w-1),r.get_int(1, tilemap_h-1));
+    polys.push_back(p);
+    poly_type.push_back(PLAIN_TILE);    
+
+    p = new Poly();
+    p->add(r.get_int(1, tilemap_w-1),r.get_int(1, tilemap_h-1))
+        .add(r.get_int(1, tilemap_w-1),r.get_int(1, tilemap_h-1))
+        .add(r.get_int(1, tilemap_w-1),r.get_int(1, tilemap_h-1))
+        .add(r.get_int(1, tilemap_w-1),r.get_int(1, tilemap_h-1));
+    polys.push_back(p);
+    poly_type.push_back(FOREST_TILE);
+
+    p = new Poly();
+    p->add(r.get_int(1, tilemap_w-1),r.get_int(1, tilemap_h-1))
+        .add(r.get_int(1, tilemap_w-1),r.get_int(1, tilemap_h-1));
+    polys.push_back(p);
+    poly_type.push_back(MOUNTAIN_TILE);
+
+    p = new Poly();
+    p->add(r.get_int(1, tilemap_w-1),r.get_int(1, tilemap_h-1))
+        .add(r.get_int(1, tilemap_w-1),r.get_int(1, tilemap_h-1));
+    polys.push_back(p);
+    poly_type.push_back(MOUNTAIN_TILE);
+
+    p = new Poly();
+    p->add(r.get_int(1, tilemap_w-1),r.get_int(1, tilemap_h-1))
+        .add(r.get_int(1, tilemap_w-1),r.get_int(1, tilemap_h-1))
+        .add(r.get_int(1, tilemap_w-1),r.get_int(1, tilemap_h-1))
+        .add(r.get_int(1, tilemap_w-1),r.get_int(1, tilemap_h-1));
+    polys.push_back(p);
+    poly_type.push_back(HILLS_TILE);
+    
+    for (int i = 0; i < tilemap_w; i++) {
+        for (int j = 0; j < tilemap_h; j++) {
+            double best_distance;
+            bool first = true;
+            vector<Poly *>::iterator it;
+            int k, best_index;
+            
+            for (it = polys.begin(), k = 0; it != polys.end(); it++, k++) {
+                double distance = (*it)->distance_to_point(i, j);
+                if (first || distance < best_distance) {
+                    best_distance = distance;
+                    best_index = k;
+                    first = false;
+                }
+            }
+            
+            tilemap[i][j] = (enum tile_type) poly_type[best_index];
         }
     }
 }

@@ -97,7 +97,7 @@ void test_circle() {
     ys.add_cos(50.0, 0.0, 2.0);
 	xs.add(200.0);
 	ys.add(200.0);
-
+    
 	sf::VertexArray lines(sf::LinesStrip, 20);
 	set_vertexarray_to_dvectors(lines, 20, xs, ys);
 
@@ -349,18 +349,33 @@ void test_map_objects(int w, int h) {
     window_loop(window);
 }
 
+void test_map2(int w, int h) {
+    sf::RenderWindow window(sf::VideoMode(w, h), "Map Test");
+    Random r;
+
+    window.clear(sf::Color(128, 128, 128, 0));
+
+    Map m(w, h, 20, 20);
+    m.poly_tile_generation(r);
+    m.fill_objects_randomly(r);
+	m.draw(window, 0, 0, w, h);
+    window.display();
+    window_loop(window);
+}
+
 int main() {
 //    test_wave();
 //    parse("resources/test.txt");
 //    test_mnt();
 //    test_poisson();
-    test_poisson2(400, 400, 28.28);
-    test_drawing();
+//    test_poisson2(400, 400, 28.28);
+//    test_drawing();
 //    test_spline();
 //    test_shield();
 //    test_map();
 //    test_lake();
 //    test_island_gen();
-    test_map_objects(400, 400);
+//    test_map_objects(400, 400);
+    test_map2(500, 500); 
     return 0;
 }

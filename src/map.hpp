@@ -45,7 +45,9 @@ public:
     ~Map();
 
     void fill_tiles_randomly(Random &r);
-    void fill_objects_randomly(Random &r);    
+    void fill_objects_randomly(Random &r);
+    
+    void poly_tile_generation(Random &r);    
 
     void add_object(Map_Object *object);
     void draw(sf::RenderWindow &r, double x, double y, double w, double h);

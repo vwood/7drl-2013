@@ -11,7 +11,11 @@ private:
     std::vector<double> ys;
     
 public:
-    Poly(Random &r, double x, double y, double radius);
+    Poly();
+    Poly(double x, double y);
+    Poly(const std::vector<double> &xs, const std::vector<double> &ys);
+
+    Poly &add(double x, double y);
     
     double area();
     double circumference();

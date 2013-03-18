@@ -1,9 +1,31 @@
 #include <math.h>
 #include <vector>
+#include "random.hpp"
 #include "poly.hpp"
 
 using namespace std;
 
+Poly::Poly() {}
+
+Poly::Poly(double x, double y) {
+    xs.push_back(x);
+    ys.push_back(y);
+}
+    
+Poly::Poly(const vector<double> &xs, const vector<double> &ys) {
+    for (vector<double>::const_iterator xit = xs.begin(), yit = ys.begin();
+         xit != xs.end() && yit != ys.end(); xit++, yit++) {
+        this->xs.push_back(*xit);
+        this->ys.push_back(*yit);
+    }
+}
+
+Poly &Poly::add(double x, double y) {
+    xs.push_back(x);
+    ys.push_back(y);
+    return *this;
+}
+    
 double point_point_distance(double x1, double y1, double x2, double y2) {
     return sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
 }
@@ -82,6 +104,9 @@ bool Poly::contains(double x, double y) {
     return result;
 }
 
+/*
+ * Note: Assumes poly is closed
+ */
 double Poly::distance_to_point(double x, double y) {
     double min_distance = 0;
     bool first = true;
