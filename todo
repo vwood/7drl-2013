@@ -4,13 +4,17 @@ DONE: Create 2d map object (tiles)
 DONE: Create tile definitions
 
 TODO:
+* Add test that reruns test when hitting SPACE
 * Finish 2d map objects
-  - Hill
+  DONE: Hill
   - Desert?
   DONE: Lake
   -  DONE: Land (v. large polys (always drawn first))
 
+  BUG: Assignment of points to tiles is incorrect (probably test with points @ X & Y)
   - Replace colours with single colour list
+  - Replace colours with generated colour regions (certain forests are same colour?)
+  - Maps larger than screen
   DONE: Display type of tile by blocks of colour under the map objects
 ** Create poly areas
    DONE: just use random maps for now

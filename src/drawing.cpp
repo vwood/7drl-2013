@@ -105,8 +105,8 @@ Drawing *Drawing::new_mountain(Random &r, double size) {
     set_vertexarray_to_color(*mntl, 0, n, sf::Color::Black);
     set_vertexarray_to_color(*mntm, 0, n, sf::Color::Black);
     set_vertexarray_to_color(*mntr, 0, n, sf::Color::Black);
-    set_vertexarray_to_color(*mntp1, 0, n*2 + 1, sf::Color(180, 180, 180, 255));
-    set_vertexarray_to_color(*mntp2, 0, n*2 + 1, sf::Color::White);
+    set_vertexarray_to_color(*mntp1, 0, n*2 + 1, sf::Color(180, 180, 180));
+    set_vertexarray_to_color(*mntp2, 0, n*2 + 1, sf::Color(230, 230, 240));
     
     (*mntp1)[0].position = sf::Vector2f(x+w/2, y+h*1.1);
     set_vertexarray_to_dvectors(*mntp1, 1, n, mntlx, mntly);
@@ -179,7 +179,52 @@ Drawing *Drawing::new_tree(Random &r, double size) {
     return result;
 }
 
-Drawing *Drawing::new_hill(Random &r, double size) { return NULL; }
+Drawing *Drawing::new_hill(Random &r, double size) {
+	int n = 12;
+
+    int height = r.get_int(size/5, size/4);
+    int x = -(size/2), y = -height, w = size, h = height;
+    
+	DVector hill1x(n), hill1y(n);
+    DVector hill2x(n), hill2y(n);
+
+    if (r.get_int(0, 2) == 1) {
+        hill1x.add_linear(x, x+w*2/3);
+        hill2x.add_linear(x+w/3, x+w);
+    } else {
+        hill1x.add_linear(x+w/3, x+w);
+        hill2x.add_linear(x, x+w*2/3);
+    }
+        
+    hill1y.add_sin(h, 1.0, 2.0);
+    hill1y.add(y+h*7/8);
+    hill2y.add_sin(h, 1.0, 2.0);
+    hill2y.add(y+h);
+
+    sf::VertexArray *hill1l, *hill2l, *hill1p, *hill2p;
+    hill1l = new sf::VertexArray(sf::LinesStrip, n);
+    hill2l = new sf::VertexArray(sf::LinesStrip, n);
+    hill1p = new sf::VertexArray(sf::TrianglesFan, n);
+    hill2p = new sf::VertexArray(sf::TrianglesFan, n);
+
+
+    set_vertexarray_to_dvectors(*hill1l, 0, n, hill1x, hill1y);
+    set_vertexarray_to_dvectors(*hill1p, 0, n, hill1x, hill1y);    
+    set_vertexarray_to_dvectors(*hill2l, 0, n, hill2x, hill2y);
+    set_vertexarray_to_dvectors(*hill2p, 0, n, hill2x, hill2y);    
+
+    set_vertexarray_to_color(*hill1l, 0, n, sf::Color::Black);
+    set_vertexarray_to_color(*hill2l, 0, n, sf::Color::Black);
+    set_vertexarray_to_color(*hill1p, 0, n, sf::Color(200, 180, 160));
+    set_vertexarray_to_color(*hill2p, 0, n, sf::Color(230, 210, 180));    
+    
+    Drawing *result = new Drawing();
+    result->v.push_back(hill1p);
+    result->v.push_back(hill1l);
+    result->v.push_back(hill2p);
+    result->v.push_back(hill2l);
+    return result;
+}
 
 Drawing *Drawing::new_wave(Random &r, double size) {
 	int n = 32 + 1;

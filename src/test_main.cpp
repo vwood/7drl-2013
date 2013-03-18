@@ -349,13 +349,32 @@ void test_map_objects(int w, int h) {
     window_loop(window);
 }
 
+void test_drawing2() {
+    sf::RenderWindow window(sf::VideoMode(200, 200), "Drawing Test");
+    Random r;
+//    Drawing *d = Drawing::new_mountain(r, 100);
+//    Drawing *d = Drawing::new_tree(r, 100);
+//    Drawing *d = Drawing::new_wave(r, 100);
+    Drawing *d = Drawing::new_hill(r, 100);
+
+    window.clear(sf::Color(128, 128, 128, 0));
+	d->draw(window, 100, 120);
+
+	sf::CircleShape cs(2, 4);
+    cs.setPosition(100, 120);
+    window.draw(cs);
+    
+    window.display();
+    window_loop(window);
+}
+
 void test_map2(int w, int h) {
     sf::RenderWindow window(sf::VideoMode(w, h), "Map Test");
     Random r;
 
     window.clear(sf::Color(128, 128, 128, 0));
 
-    Map m(w, h, 20, 20);
+    Map m(w, h, 32, 32);
     m.poly_tile_generation(r);
     m.fill_objects_randomly(r);
 	m.draw(window, 0, 0, w, h);
@@ -367,8 +386,8 @@ int main() {
 //    test_wave();
 //    parse("resources/test.txt");
 //    test_mnt();
-//    test_poisson();
-//    test_poisson2(400, 400, 28.28);
+    test_poisson();
+    test_poisson2(400, 400, 28.28);
 //    test_drawing();
 //    test_spline();
 //    test_shield();
@@ -376,6 +395,7 @@ int main() {
 //    test_lake();
 //    test_island_gen();
 //    test_map_objects(400, 400);
+    test_drawing2();
     test_map2(500, 500); 
     return 0;
 }

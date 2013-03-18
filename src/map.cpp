@@ -98,7 +98,7 @@ Drawing *Map::create_tile_object(Random &r, enum tile_type tile) {
     case FOREST_TILE:
         return Drawing::new_tree(r, size);
     case HILLS_TILE:
-        return NULL; /* TODO: create a hill object */
+        return Drawing::new_hill(r, size);        
     case WATER_TILE:
         return Drawing::new_wave(r, size);
     case MOUNTAIN_TILE:
@@ -126,8 +126,8 @@ void Map::fill_objects_randomly(Random &r) {
     const std::vector<double> &ys = p.get_y();
     for (std::vector<double>::const_iterator xit = xs.begin(), yit = ys.begin();
          xit != xs.end() && yit != ys.end(); xit++, yit++) { 
-        int x = *xit / tile_w;
-        int y = *yit / tile_h;
+        int x = (*xit / tile_w)-0.5;
+        int y = (*yit / tile_h)-0.5;
         if (x < 0 || x >= tilemap_w || y < 0 || y >= tilemap_h) {
             cerr << "Error: poisson generated outside tilemap. " << x << "x" << y << endl;
             continue;
