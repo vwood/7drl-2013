@@ -15,6 +15,7 @@ TODO:
   - Replace colours with single colour list
   - Replace colours with generated colour regions (certain forests are same colour?)
   - Maps larger than screen
+	- Zoom + movement
   DONE: Display type of tile by blocks of colour under the map objects
 ** Create poly areas
    DONE: just use random maps for now
