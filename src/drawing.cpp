@@ -3,6 +3,7 @@
 #include <iostream>
 #include "random.hpp"
 #include "dvector.hpp"
+#include "map_color.hpp"
 #include "drawing.hpp"
 
 using namespace std;
@@ -102,11 +103,11 @@ Drawing *Drawing::new_mountain(Random &r, double size) {
     set_vertexarray_to_dvectors(*mntm, 0, n, mntmx, mntmy);
     set_vertexarray_to_dvectors(*mntr, 0, n, mntrx, mntry);
 
-    set_vertexarray_to_color(*mntl, 0, n, sf::Color::Black);
-    set_vertexarray_to_color(*mntm, 0, n, sf::Color::Black);
-    set_vertexarray_to_color(*mntr, 0, n, sf::Color::Black);
-    set_vertexarray_to_color(*mntp1, 0, n*2 + 1, sf::Color(180, 180, 180));
-    set_vertexarray_to_color(*mntp2, 0, n*2 + 1, sf::Color(230, 230, 240));
+    set_vertexarray_to_color(*mntl, 0, n, Map_Color::outlines);
+    set_vertexarray_to_color(*mntm, 0, n, Map_Color::outlines);
+    set_vertexarray_to_color(*mntr, 0, n, Map_Color::outlines);
+    set_vertexarray_to_color(*mntp1, 0, n*2 + 1, Map_Color::mountain_back);
+    set_vertexarray_to_color(*mntp2, 0, n*2 + 1, Map_Color::mountain_front);
     
     (*mntp1)[0].position = sf::Vector2f(x+w/2, y+h*1.1);
     set_vertexarray_to_dvectors(*mntp1, 1, n, mntlx, mntly);
@@ -165,12 +166,11 @@ Drawing *Drawing::new_tree(Random &r, double size) {
     set_vertexarray_to_dvectors(*leaves_poly, 0, n, leavesx, leavesy);
     set_vertexarray_to_dvectors(*trunk_poly, 0, 4, trunkx, trunky);
 
-    set_vertexarray_to_color(*leaves_line, 0, n + 1, sf::Color::Black);
-    set_vertexarray_to_color(*trunk_line, 0, 4, sf::Color::Black);
-    set_vertexarray_to_color(*leaves_poly, 0, n, sf::Color(0, 180, 120, 255)); // tree green
-    set_vertexarray_to_color(*trunk_poly, 0, 4, sf::Color(230, 200, 170, 255)); // trunk brown
+    set_vertexarray_to_color(*leaves_line, 0, n + 1, Map_Color::outlines);
+    set_vertexarray_to_color(*trunk_line, 0, 4, Map_Color::outlines);
+    set_vertexarray_to_color(*leaves_poly, 0, n, Map_Color::tree_leaves);
+    set_vertexarray_to_color(*trunk_poly, 0, 4, Map_Color::tree_trunk);
     
-
     Drawing *result = new Drawing();
     result->v.push_back(leaves_poly);
     result->v.push_back(leaves_line);
@@ -213,10 +213,10 @@ Drawing *Drawing::new_hill(Random &r, double size) {
     set_vertexarray_to_dvectors(*hill2l, 0, n, hill2x, hill2y);
     set_vertexarray_to_dvectors(*hill2p, 0, n, hill2x, hill2y);    
 
-    set_vertexarray_to_color(*hill1l, 0, n, sf::Color::Black);
-    set_vertexarray_to_color(*hill2l, 0, n, sf::Color::Black);
-    set_vertexarray_to_color(*hill1p, 0, n, sf::Color(200, 180, 160));
-    set_vertexarray_to_color(*hill2p, 0, n, sf::Color(230, 210, 180));    
+    set_vertexarray_to_color(*hill1l, 0, n, Map_Color::outlines);
+    set_vertexarray_to_color(*hill2l, 0, n, Map_Color::outlines);
+    set_vertexarray_to_color(*hill1p, 0, n, Map_Color::hill_back);
+    set_vertexarray_to_color(*hill2p, 0, n, Map_Color::hill_front);    
     
     Drawing *result = new Drawing();
     result->v.push_back(hill1p);
@@ -245,7 +245,7 @@ Drawing *Drawing::new_wave(Random &r, double size) {
 
     set_vertexarray_to_dvectors(*wave_line, 0, n, wavex, wavey);
 
-    set_vertexarray_to_color(*wave_line, 0, n, sf::Color(100, 180, 255, 255)); // Wave blue
+    set_vertexarray_to_color(*wave_line, 0, n, Map_Color::wave);
 
     Drawing *result = new Drawing();
     result->v.push_back(wave_line);
@@ -273,7 +273,7 @@ Drawing *Drawing::new_lake(Random &r, double size) {
     lake = new sf::VertexArray(sf::TrianglesFan, n);
 
     set_vertexarray_to_dvectors(*lake, 0, n, lakex, lakey);
-    set_vertexarray_to_color(*lake, 0, n, sf::Color(30, 130, 200, 255)); // Lake blue
+    set_vertexarray_to_color(*lake, 0, n, Map_Color::lake);
 
     Drawing *result = new Drawing();
     result->v.push_back(lake);
@@ -315,9 +315,9 @@ Drawing *Drawing::new_shield(Random &r, double size) {
     shield_poly = new sf::VertexArray(sf::TrianglesFan, n);
 
     set_vertexarray_to_dvectors(*shield_line, 0, n + 1, shieldx, shieldy);
-    set_vertexarray_to_color(*shield_line, 0, n + 1, sf::Color::Black); 
+    set_vertexarray_to_color(*shield_line, 0, n + 1, Map_Color::outlines); 
     set_vertexarray_to_dvectors(*shield_poly, 0, n, shieldx, shieldy);
-    set_vertexarray_to_color(*shield_poly, 0, n, sf::Color(200, 100, 230, 255)); // Whichever Shield Colour
+    set_vertexarray_to_color(*shield_poly, 0, n, Map_Color::shield);
 
     Drawing *result = new Drawing();
     result->v.push_back(shield_poly);

@@ -12,6 +12,17 @@ public:
     static const sf::Color mountain;
     static const sf::Color error;
 
+    static const sf::Color outlines;
+    static const sf::Color mountain_back;
+    static const sf::Color mountain_front;
+    static const sf::Color tree_leaves;
+    static const sf::Color tree_trunk;
+    static const sf::Color hill_back;
+    static const sf::Color hill_front;
+    static const sf::Color wave;
+    static const sf::Color lake;
+
+    static const sf::Color shield;
 };
 
 #endif

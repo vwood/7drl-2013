@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <math.h>
 #include <vector>
+#include <algorithm>
 #include <iostream>
 #include "random.hpp"
 #include "drawing.hpp"
@@ -118,25 +119,34 @@ void Map::fill_tiles_randomly(Random &r) {
 
 void Map::fill_objects_randomly(Random &r) {
     Poisson p;
-    double radius = (max(tile_w, tile_h) / 4.0);
+    double radius = (max(tile_w, tile_h) / 8.0);
     radius = sqrt(2 * (radius * radius));
     p.generate(r, map_w, map_h, radius, tilemap_w * tilemap_h);
-
+    
     const std::vector<double> &xs = p.get_x();
     const std::vector<double> &ys = p.get_y();
     for (std::vector<double>::const_iterator xit = xs.begin(), yit = ys.begin();
          xit != xs.end() && yit != ys.end(); xit++, yit++) { 
-        int x = (*xit / tile_w)-0.5;
-        int y = (*yit / tile_h)-0.5;
+        int x = (*xit / tile_w);
+        int y = (*yit / tile_h);
         if (x < 0 || x >= tilemap_w || y < 0 || y >= tilemap_h) {
             cerr << "Error: poisson generated outside tilemap. " << x << "x" << y << endl;
             continue;
         }
+
         Drawing *d = create_tile_object(r, tilemap[x][y]);
         if (d != NULL) {
             map_objects.push_back(new Map_Object(d, *xit, *yit));
         }
     }
+}
+
+bool map_object_cmp_by_y(Map_Object *a,  Map_Object *b) {
+    return a->get_y() < b->get_y();
+}
+
+void Map::sort_objects() {
+    sort(map_objects.begin(), map_objects.end(), map_object_cmp_by_y);
 }
 
 /*

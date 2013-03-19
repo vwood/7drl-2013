@@ -46,6 +46,7 @@ public:
 
     void fill_tiles_randomly(Random &r);
     void fill_objects_randomly(Random &r);
+    void sort_objects();
     
     void poly_tile_generation(Random &r);    
 
