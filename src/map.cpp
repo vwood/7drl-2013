@@ -119,9 +119,9 @@ void Map::fill_tiles_randomly(Random &r) {
 
 void Map::fill_objects_randomly(Random &r) {
     Poisson p;
-    double radius = (max(tile_w, tile_h) / 8.0);
+    double radius = (max(tile_w, tile_h) / 12.0);
     radius = sqrt(2 * (radius * radius));
-    p.generate(r, map_w, map_h, radius, tilemap_w * tilemap_h);
+    p.generate(r, map_w, map_h, radius, tilemap_w * tilemap_h * 2);
     
     const std::vector<double> &xs = p.get_x();
     const std::vector<double> &ys = p.get_y();

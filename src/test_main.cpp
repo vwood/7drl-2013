@@ -374,25 +374,11 @@ void test_map2(int w, int h) {
 
     window.clear(sf::Color(128, 128, 128, 0));
 
-    Map m(w, h, 16, 16);
+    Map m(w, h, 32, 32);
     m.poly_tile_generation(r);
     m.fill_objects_randomly(r);
+    m.sort_objects();    
 	m.draw(window, 0, 0, w, h);
-    window.display();
-    window_loop(window);
-}
-
-void test_map3(int w, int h) {
-    sf::RenderWindow window(sf::VideoMode(w, h), "Map Test");
-    Random r;
-
-    window.clear(sf::Color(128, 128, 128, 0));
-
-    Map m(w, h, 16, 16);
-    m.poly_tile_generation(r);
-    m.fill_objects_randomly(r);
-    m.sort_objects();
-    m.draw(window, 0, 0, w, h);
     window.display();
     window_loop(window);
 }
@@ -411,7 +397,6 @@ int main() {
 //    test_island_gen();
 //    test_map_objects(400, 400);
 //    test_drawing2();
-    test_map2(192, 192); 
-    test_map3(192, 192); 
+    test_map2(512, 512); 
     return 0;
 }

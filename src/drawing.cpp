@@ -227,16 +227,16 @@ Drawing *Drawing::new_hill(Random &r, double size) {
 }
 
 Drawing *Drawing::new_wave(Random &r, double size) {
-	int n = 32 + 1;
+	int n = 24 + 1;
 
     int height = r.get_int(size * 1/2, size * 2/3);
     int x = -(size/2), y = -height, w = size, h = height;
     
 	DVector wavex(n), wavey(n);
 
-    int wave_size = h/3;
-    wavex.add_linear(x, x + w);
-	wavey.add_cos(h / 3, 0.0, 4.0);
+    int wave_size = h/6;
+    wavex.add_linear(x + w/4, x +w*3/4);
+	wavey.add_cos(h / 4, 0.0, 3.0);
     wavey.map_abs();
     wavey.add(y+h - wave_size/2);
 
@@ -263,8 +263,8 @@ Drawing *Drawing::new_lake(Random &r, double size) {
     lakex.add_sin(w / 3, 0.0, 2.0);
 	lakey.add_cos(h / 3, 0.0, 2.0);
 
-    lakex.add_noise(r, -4.0, 4.0);
-	lakey.add_noise(r, -4.0, 4.0);
+    lakex.add_noise(r, -2.0, 2.0);
+	lakey.add_noise(r, -2.0, 2.0);
 
     lakex.add(x);
     lakey.add(y);
