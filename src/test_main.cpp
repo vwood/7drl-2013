@@ -9,6 +9,7 @@
 #include "map.hpp"
 #include "map_object.hpp"
 #include "poisson.hpp"
+#include "test_units.hpp"
 
 using namespace std;
 
@@ -384,6 +385,7 @@ void test_map2(int w, int h) {
 }
 
 int main() {
+    Test_Units::run();
 //    test_wave();
 //    parse("resources/test.txt");
 //    test_mnt();
@@ -397,6 +399,6 @@ int main() {
 //    test_island_gen();
 //    test_map_objects(400, 400);
 //    test_drawing2();
-    test_map2(512, 512); 
+//    test_map2(512, 512); 
     return 0;
 }

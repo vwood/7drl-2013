@@ -95,7 +95,11 @@ Drawing *Map::create_tile_object(Random &r, enum tile_type tile) {
     double size = max(tile_w, tile_h);
     switch (tile) {
     case PLAIN_TILE:
-        return NULL;
+        if (r.get_int(0, 10) == 0) {
+            return Drawing::new_lake(r, size); // TODO: Actually a different, rare, tile type
+        } else {
+            return NULL;
+        }
     case FOREST_TILE:
         return Drawing::new_tree(r, size);
     case HILLS_TILE:
