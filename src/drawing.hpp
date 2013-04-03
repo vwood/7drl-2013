@@ -5,6 +5,7 @@
 #include <SFML/Graphics.hpp>
 
 class Random;
+class DVector;
 
 class Drawing {
 private:
@@ -28,6 +29,7 @@ public:
     static Drawing *new_hut(Random &r, double size);
 
     static Drawing *new_shield(Random &r, double size);
+    static Drawing *new_person(Random &r, double size);
 };
 
 

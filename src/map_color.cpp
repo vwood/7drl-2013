@@ -22,3 +22,6 @@ const sf::Color Map_Color::lake = sf::Color(30, 130, 200);
 
 const sf::Color Map_Color::shield = sf::Color(200, 100, 230);
 
+const sf::Color Map_Color::person_head = sf::Color(230, 200, 100);
+const sf::Color Map_Color::person_body = sf::Color(200, 200, 200);
+

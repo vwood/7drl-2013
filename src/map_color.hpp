@@ -23,6 +23,9 @@ public:
     static const sf::Color lake;
 
     static const sf::Color shield;
+
+    static const sf::Color person_head;
+    static const sf::Color person_body;
 };
 
 #endif

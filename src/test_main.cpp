@@ -356,8 +356,8 @@ void test_drawing2() {
 //    Drawing *d = Drawing::new_mountain(r, 100);
 //    Drawing *d = Drawing::new_tree(r, 100);
 //    Drawing *d = Drawing::new_wave(r, 100);
-    Drawing *d = Drawing::new_hill(r, 100);
-
+//    Drawing *d = Drawing::new_hill(r, 100);
+    Drawing *d = Drawing::new_person(r, 100);
     window.clear(sf::Color(128, 128, 128, 0));
 	d->draw(window, 100, 120);
 
@@ -398,7 +398,8 @@ int main() {
 //    test_lake();
 //    test_island_gen();
 //    test_map_objects(400, 400);
-//    test_drawing2();
-//    test_map2(512, 512); 
+    test_drawing2();
+//    test_map2(512, 512);
+
     return 0;
 }

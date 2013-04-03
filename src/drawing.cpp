@@ -29,6 +29,7 @@ void Drawing::draw(sf::RenderWindow &r, double x, double y) {
     }
 }
 
+
 /*
  * Sets points in a VertexArray to the values in a pair of DVectors
  *
@@ -59,6 +60,28 @@ void set_vertexarray_to_color(sf::VertexArray &va, int offset, int n, sf::Color 
 	for (i = 0; i < n; i++) {
 		va[i + offset].color = c;
 	}
+}
+
+/*
+ * Helper to allocate a rect poly
+ */ 
+sf::VertexArray *new_rect(double x1, double y1, double x2, double y2, const sf::Color &color) {
+    int n = 4;
+    DVector rx(n), ry(n);
+
+	rx.set(0, x1);
+    ry.set(0, y1);
+    rx.set(1, x2);
+    ry.set(1, y1);
+    rx.set(2, x2);
+    ry.set(2, y2);
+    rx.set(3, x1);
+    ry.set(3, y2);
+
+    sf::VertexArray *poly = new sf::VertexArray(sf::TrianglesFan, n);
+    set_vertexarray_to_dvectors(*poly, 0, n, rx, ry);
+    set_vertexarray_to_color(*poly, 0, n, color);
+    return poly;
 }
 
 /*
@@ -322,5 +345,20 @@ Drawing *Drawing::new_shield(Random &r, double size) {
     Drawing *result = new Drawing();
     result->v.push_back(shield_poly);
     result->v.push_back(shield_line);
+    return result;
+}
+
+Drawing *Drawing::new_person(Random &r, double size) {
+    int x = -(size/2), y = -(size/2), w = size, h = size;
+    x += w / 4;
+    w /= 2;
+    h = h/2;
+    
+    sf::VertexArray *head_poly = new_rect(x + w/4, y, x + w*3/4, y+h/2, Map_Color::person_head);
+    sf::VertexArray *body_poly = new_rect(x + w/4, y+h/2, x + w*3/4, y+h, Map_Color::person_body);
+
+    Drawing *result = new Drawing();
+    result->v.push_back(head_poly);
+    result->v.push_back(body_poly);
     return result;
 }
