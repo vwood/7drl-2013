@@ -51,6 +51,7 @@ public:
     void poly_tile_generation(Random &r);    
 
     void add_object(Map_Object *object);
+    void add_entity(Entity *entity);
     void draw(sf::RenderWindow &r, double x, double y, double w, double h);
 };
 

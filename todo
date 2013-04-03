@@ -1,25 +1,26 @@
-DONE: Add midpoint displacement to DVector 
-DONE: Create Poisson disc alg.
-DONE: Create 2d map object (tiles)
-DONE: Create tile definitions
+DONE: 
+Add midpoint displacement to DVector 
+Create Poisson disc alg.
+Create 2d map object (tiles)
+Create tile definitions
+Add test that reruns test when hitting SPACE
+Hill
+Lake
+BUG: Assignment of points to tiles is incorrect (probably test with points @ X & Y)
+- Replace colours with single colour list
+Land
+Display type of tile by blocks of colour under the map objects
+Create poly areas
+just use random maps for now
 
 TODO:
-* Add test that reruns test when hitting SPACE
 * Finish 2d map objects
-  DONE: Hill
   - Desert?
-  DONE: Lake
-  -  DONE: Land (v. large polys (always drawn first))
-
-  BUG: Assignment of points to tiles is incorrect (probably test with points @ X & Y)
-  - Replace colours with single colour list
   - Replace colours with generated colour regions (certain forests are same colour?)
   - Maps larger than screen
 	- Zoom + movement
-  DONE: Display type of tile by blocks of colour under the map objects
-** Create poly areas
-   DONE: just use random maps for now
-   DONE: Generate poisson positions limited to a poly
+
+    TODO : Generate poisson positions limited to a poly
      - Use poisson generation to generate points for polys to generate tiles
      - No: Colour them based on their proximity to higher points/poly?
      - Can have surrounding rectangle for water

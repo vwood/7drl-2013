@@ -7,7 +7,7 @@ private:
     Drawing *drawing;
     
 public:
-    Entity(int x, int y);
+    Entity(Random &r, int x, int y);
     ~Entity();
     
 };

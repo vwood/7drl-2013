@@ -228,11 +228,16 @@ void Map::poly_tile_generation(Random &r) {
 
 /*
  * Adds a map object to the map
- *
- * Here we map the object to tiles. 
  */
 void Map::add_object(Map_Object *object) {
     map_objects.push_back(object);
+}
+
+/*
+ * Adds an entity to the map
+ */
+void Map::add_entity(Entity *entity) {
+    entities.push_back(entity);
 }
 
 void Map::draw(sf::RenderWindow &r, double x, double y, double w, double h) {

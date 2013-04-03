@@ -353,9 +353,11 @@ Drawing *Drawing::new_person(Random &r, double size) {
     x += w / 4;
     w /= 2;
     h = h/2;
-    
-    sf::VertexArray *head_poly = new_rect(x + w/4, y, x + w*3/4, y+h/2, Map_Color::person_head);
-    sf::VertexArray *body_poly = new_rect(x + w/4, y+h/2, x + w*3/4, y+h, Map_Color::person_body);
+
+    sf::VertexArray *head_poly = new_rect(x + w / 3, y,
+                                          x + w * 2 / 3, y+h/3, Map_Color::person_head);
+    sf::VertexArray *body_poly = new_rect(x + w / 4, y+h/3,
+                                          x + w * 3 / 4, y+h, Map_Color::person_body);
 
     Drawing *result = new Drawing();
     result->v.push_back(head_poly);
