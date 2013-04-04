@@ -378,10 +378,12 @@ void test_map2(int w, int h) {
     Map m(w, h, 32, 32);
     m.poly_tile_generation(r);
     m.fill_objects_randomly(r);
-    m.sort_objects();
+    m.sort_map_objects();
     m.fill_entities_randomly(r, 10);    
 	m.draw(window, 0, 0, w, h);
+    window.capture().saveToFile("screenshot.jpg");
     window.display();
+
     window_loop(window);
 }
 

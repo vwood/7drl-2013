@@ -47,7 +47,7 @@ public:
     void fill_tiles_randomly(Random &r);
     void fill_objects_randomly(Random &r);
     void fill_entities_randomly(Random &r, int n);
-    void sort_objects();
+    void sort_map_objects();
     
     void poly_tile_generation(Random &r);    
 

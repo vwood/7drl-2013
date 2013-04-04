@@ -98,6 +98,10 @@ enum game_states Application::title_loop() {
                 case sf::Keyboard::Escape:
                     quitting = true;
                     break;
+                    
+                case sf::Keyboard::F1:
+                    window->capture().saveToFile("screenshot.jpg");
+                    break;
 
                 default:
                     std::cout << "code:" << event.key.code << std::endl;

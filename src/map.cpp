@@ -167,7 +167,7 @@ bool map_object_cmp_by_y(Map_Object *a,  Map_Object *b) {
     return a->get_y() < b->get_y();
 }
 
-void Map::sort_objects() {
+void Map::sort_map_objects() {
     sort(map_objects.begin(), map_objects.end(), map_object_cmp_by_y);
 }
 
