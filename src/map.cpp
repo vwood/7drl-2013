@@ -280,3 +280,15 @@ void Map::draw(sf::RenderWindow &r, double x, double y, double w, double h) {
         (*it)->draw(r, 0, 0, tile_w, tile_h);
     }
 }
+
+enum tile_type Map::get_tile_at(int x, int y) {
+    return tilemap[x][y];
+}
+
+int Map::get_tile_width() {
+    return tilemap_w;
+}
+
+int Map::get_tile_height() {
+    return tilemap_h;
+}

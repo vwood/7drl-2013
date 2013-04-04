@@ -35,6 +35,10 @@ void DVector::set(int index, double value) {
     v[index] = value;
 }
 
+void DVector::append(double value) {
+    v.push_back(value);
+}
+
 /*
  * Helper function for Catmull-Rom splines (goes through all points) 
  * t is the fraction between 0 and 1 that the point is between p1 & p2

@@ -6,6 +6,7 @@
 
 class Random;
 class DVector;
+class Map;
 
 class Drawing {
 private:
@@ -30,6 +31,8 @@ public:
 
     static Drawing *new_shield(Random &r, double size);
     static Drawing *new_person(Random &r, double size);
+
+    static Drawing *new_landmass(Random &r, Map &m, int tile);
 };
 
 

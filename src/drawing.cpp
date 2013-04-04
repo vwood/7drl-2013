@@ -4,6 +4,7 @@
 #include "random.hpp"
 #include "dvector.hpp"
 #include "map_color.hpp"
+#include "map.hpp"
 #include "drawing.hpp"
 
 using namespace std;
@@ -367,5 +368,22 @@ Drawing *Drawing::new_person(Random &r, double size) {
     result->v.push_back(head_lines);
     result->v.push_back(body_poly);
     result->v.push_back(body_lines);    
+    return result;
+}
+
+// TODO
+Drawing *Drawing::new_landmass(Random &r, Map &m, int tile) {
+    int n = 0;
+    DVector landmass_x(n), landmass_y(n);
+
+    landmass_x.append(2);
+    landmass_y.append(3);
+    
+    sf::VertexArray *landmass_poly = new sf::VertexArray(sf::TrianglesFan, n);
+    set_vertexarray_to_dvectors(*landmass_poly, 0, n, landmass_x, landmass_y);
+    set_vertexarray_to_color(*landmass_poly, 0, n, m.get_tile_color((enum tile_type) tile));
+    
+    Drawing *result = new Drawing();
+    result->v.push_back(landmass_poly);
     return result;
 }

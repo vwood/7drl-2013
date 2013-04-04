@@ -15,6 +15,7 @@ public:
     
     void clear();
     void set(int index, double value);
+    void append(double value);    
     void set_to_spline(DVector *other);
     
     void add(DVector *other);
