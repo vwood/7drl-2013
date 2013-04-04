@@ -7,6 +7,7 @@
 #include "drawing.hpp"
 #include "poisson.hpp"
 #include "poly.hpp"
+#include "entity.hpp"
 #include "map_object.hpp"
 #include "map_color.hpp"
 #include "map.hpp"
@@ -30,6 +31,10 @@ Map::~Map() {
     delete[] tilemap;
 
     for (vector<Map_Object*>::iterator it = map_objects.begin(); it != map_objects.end(); it++) {
+        delete *it;
+    }
+
+    for (vector<Entity*>::iterator it = entities.begin(); it != entities.end(); it++) {
         delete *it;
     }
 }
@@ -145,6 +150,19 @@ void Map::fill_objects_randomly(Random &r) {
     }
 }
 
+void Map::fill_entities_randomly(Random &r, int n) {
+    for (int i = 0; i < n; i++) {
+        int x = r.get_int(0, tilemap_w - 1);
+        int y = r.get_int(0, tilemap_h - 1);        
+
+        if (!tile_blocks_move(tilemap[x][y])) {
+            add_entity(new Entity(r, x, y));
+        } else {
+            i--;
+        }
+    }
+}
+
 bool map_object_cmp_by_y(Map_Object *a,  Map_Object *b) {
     return a->get_y() < b->get_y();
 }
@@ -256,5 +274,9 @@ void Map::draw(sf::RenderWindow &r, double x, double y, double w, double h) {
 
     for (vector<Map_Object*>::iterator it = map_objects.begin(); it != map_objects.end(); it++) {
         (*it)->draw(r, 0, 0);
+    }
+    
+    for (vector<Entity*>::iterator it = entities.begin(); it != entities.end(); it++) {
+        (*it)->draw(r, 0, 0, tile_w, tile_h);
     }
 }

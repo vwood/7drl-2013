@@ -12,3 +12,7 @@ Entity::~Entity() {
         delete drawing;
     }
 }
+
+void Entity::draw(sf::RenderWindow &r, double x, double y, double tile_w, double tile_h) {
+    drawing->draw(r, this->x * tile_w + tile_w / 2 + x, this->y * tile_h + tile_h / 2 + y);
+}

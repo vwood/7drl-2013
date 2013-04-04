@@ -64,19 +64,17 @@ void set_vertexarray_to_color(sf::VertexArray &va, int offset, int n, sf::Color 
 
 /*
  * Helper to allocate a rect poly
+ * - can setPrimitive to LinesStrip
  */ 
 sf::VertexArray *new_rect(double x1, double y1, double x2, double y2, const sf::Color &color) {
-    int n = 4;
+    int n = 5;
     DVector rx(n), ry(n);
 
-	rx.set(0, x1);
-    ry.set(0, y1);
-    rx.set(1, x2);
-    ry.set(1, y1);
-    rx.set(2, x2);
-    ry.set(2, y2);
-    rx.set(3, x1);
-    ry.set(3, y2);
+	rx.set(0, x1); ry.set(0, y1);
+    rx.set(1, x2); ry.set(1, y1);
+    rx.set(2, x2); ry.set(2, y2);
+    rx.set(3, x1); ry.set(3, y2);
+    rx.set(4, x1); ry.set(4, y1);
 
     sf::VertexArray *poly = new sf::VertexArray(sf::TrianglesFan, n);
     set_vertexarray_to_dvectors(*poly, 0, n, rx, ry);
@@ -356,11 +354,18 @@ Drawing *Drawing::new_person(Random &r, double size) {
 
     sf::VertexArray *head_poly = new_rect(x + w / 3, y,
                                           x + w * 2 / 3, y+h/3, Map_Color::person_head);
+    sf::VertexArray *head_lines = new_rect(x + w / 3, y,
+                                           x + w * 2 / 3, y+h/3, Map_Color::outlines);
+    head_lines->setPrimitiveType(sf::LinesStrip);
     sf::VertexArray *body_poly = new_rect(x + w / 4, y+h/3,
                                           x + w * 3 / 4, y+h, Map_Color::person_body);
-
+    sf::VertexArray *body_lines = new_rect(x + w / 4, y+h/3,
+                                           x + w * 3 / 4, y+h, Map_Color::outlines);
+    body_lines->setPrimitiveType(sf::LinesStrip);
     Drawing *result = new Drawing();
     result->v.push_back(head_poly);
+    result->v.push_back(head_lines);
     result->v.push_back(body_poly);
+    result->v.push_back(body_lines);    
     return result;
 }

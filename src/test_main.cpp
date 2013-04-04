@@ -378,7 +378,8 @@ void test_map2(int w, int h) {
     Map m(w, h, 32, 32);
     m.poly_tile_generation(r);
     m.fill_objects_randomly(r);
-    m.sort_objects();    
+    m.sort_objects();
+    m.fill_entities_randomly(r, 10);    
 	m.draw(window, 0, 0, w, h);
     window.display();
     window_loop(window);
@@ -398,8 +399,8 @@ int main() {
 //    test_lake();
 //    test_island_gen();
 //    test_map_objects(400, 400);
-    test_drawing2();
-//    test_map2(512, 512);
+//    test_drawing2();
+    test_map2(256, 256);
 
     return 0;
 }
