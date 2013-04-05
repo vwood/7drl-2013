@@ -19,14 +19,14 @@ enum tile_type {
 
 class Map {
 private:
-    /* In pixels - entire map */
-    int map_w, map_h;
-    
+    /* In tiles - entire map */
+    int tilemap_w, tilemap_h;
+
     /* In pixels - single tile */
     int tile_w, tile_h;
 
-    /* In tiles - entire map */
-    int tilemap_w, tilemap_h;
+    /* In pixels - entire map */
+    int map_w, map_h;
 
     enum tile_type **tilemap;
     std::vector<Map_Object*> map_objects;

@@ -181,3 +181,7 @@ void Application::state_loop() {
         }
     }
 }
+
+sf::Font &Application::get_font() {
+    return *font;
+}

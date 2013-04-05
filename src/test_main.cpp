@@ -375,7 +375,7 @@ void test_map2(int w, int h) {
 
     window.clear(sf::Color(128, 128, 128, 0));
 
-    Map m(w, h, 32, 32);
+    Map m(w / 32, h / 32, 32, 32);
     m.poly_tile_generation(r);
     m.fill_objects_randomly(r);
     m.sort_map_objects();

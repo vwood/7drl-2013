@@ -1,6 +1,8 @@
 #ifndef APPLICATION_HPP
 #define APPLICATION_HPP
 
+#include <SFML/Graphics.hpp>
+
 enum game_states {
     TITLE_SCREEN,
     GAME_PLAY,
@@ -26,6 +28,8 @@ public:
     enum game_states paused_loop();
 
     void state_loop();
+
+    sf::Font &get_font();
 };
 
 #endif

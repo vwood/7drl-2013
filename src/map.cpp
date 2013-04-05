@@ -14,9 +14,9 @@
 
 using namespace std;
 
-Map::Map(int map_w, int map_h, int tile_w, int tile_h) : map_w(map_w), map_h(map_h), tile_w(tile_w), tile_h(tile_h) {
-    tilemap_w = map_w / tile_w;
-    tilemap_h = map_h / tile_h;
+Map::Map(int w, int h, int tile_w, int tile_h) : tilemap_w(w), tilemap_h(h), tile_w(tile_w), tile_h(tile_h) {
+    map_w = tilemap_w * tile_w;
+    map_h = tilemap_h * tile_h;
     
     tilemap = new enum tile_type *[tilemap_w];
     for (int i = 0; i < tilemap_w; i++) {

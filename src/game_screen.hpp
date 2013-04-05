@@ -7,12 +7,14 @@ class Map;
 
 class Game_Screen {
 private:
-    int x, y;
+    int w, h;
+    Map &map;
+    
 public:
-    Game_Screen(int x, int y);
+    Game_Screen(int w, int h, Map &map);
     ~Game_Screen();
 
-    void display(sf::RenderWindow &rw, Map &map);
+    void display(sf::RenderWindow &rw);
 };
 
 #endif

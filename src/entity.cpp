@@ -3,7 +3,7 @@
 #include "entity.hpp"
 
 Entity::Entity(Random &r, int x, int y) : x(x), y(y) {
-    drawing = Drawing::new_person(r, 16);
+    drawing = Drawing::new_person(r, 32);
 }
 
 
