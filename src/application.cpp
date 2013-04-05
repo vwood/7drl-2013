@@ -2,6 +2,7 @@
 #include <iostream>
 #include "drawing.hpp"
 #include "random.hpp"
+#include "title_screen.hpp"
 #include "application.hpp"
 
 using namespace std;
@@ -46,39 +47,8 @@ bool Application::init(int w, int h) {
 }
 
 enum game_states Application::title_loop() {
-    sf::Color background(200, 210, 255, 0);
-    sf::Color text_color(80, 80, 220, 255);
+    Title_Screen title_screen(w, h, *this);
 
-	sf::Text text("Seven Days of Midnight", *font, 32);
-    text.setPosition(10, 10);
-    text.setColor(text_color);
-
-	sf::Text text2("Escape to quit, Space to play", *font, 28);
-    text2.setPosition(210, 440);
-    text2.setColor(sf::Color(120, 120, 120, 255));
-
-    
-    sf::RectangleShape rs(sf::Vector2f(w, h / 3));
-    rs.setFillColor(sf::Color(120, 120, 250, 255));
-
-    Random r;
-
-    // TODO: Change to use map_objects + draw
-
-    Drawing *m1 = Drawing::new_mountain(r, 100);
-    Drawing *m2 = Drawing::new_mountain(r, 100);
-    Drawing *m3 = Drawing::new_mountain(r, 100);
-
-    Drawing *t1 = Drawing::new_tree(r, 80);
-    Drawing *t2 = Drawing::new_tree(r, 80);
-    Drawing *t3 = Drawing::new_tree(r, 50);
-
-    Drawing *s1 = Drawing::new_shield(r, 100);
-
-	sf::Text at_symbol("@", *font, 64);
-    at_symbol.setPosition(550 - 32, 64 - 42);
-    at_symbol.setColor(sf::Color(90, 0, 60, 255));
-    
     bool quitting = false;
     // Start the game loop
     while (!quitting) {
@@ -118,32 +88,12 @@ enum game_states Application::title_loop() {
         // Nope
         
         // *** Draw ***
-        window->clear(background);
-        window->draw(rs);
-        window->draw(text);
-        window->draw(text2);
-        t3->draw(*window, 300.0, 170.0);
-        m1->draw(*window, 120.0, 180.0);
-        m2->draw(*window, 220.0, 180.0);
-        m3->draw(*window, 170.0, 220.0);
-        t1->draw(*window, 50.0, 240.0);
-        t2->draw(*window, 90.0, 260.0);
-
-        s1->draw(*window, 550.0, 64.0);
-        window->draw(at_symbol);
-
+        title_screen.display(*window);
         window->display();
+        
         sf::sleep(sf::seconds(0.1f));
     }
 
-    delete m1;
-    delete m2;
-    delete m3;
-    
-    delete t1;
-    delete t2;
-    delete t3;
-    
     return QUIT;
 }
 

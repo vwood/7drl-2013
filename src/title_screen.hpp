@@ -5,13 +5,15 @@
 #include <vector>
 
 class Application;
+class Map_Object;
 
 class Title_Screen {
 private:
     int w, h;
     Application &app;
-    std::vector<Drawing *> drawings;
+    std::vector<Map_Object *> objects;
     std::vector<sf::Text *> texts;
+    sf::RectangleShape *background;
     
 public:
     Title_Screen(int w, int h, Application &app);

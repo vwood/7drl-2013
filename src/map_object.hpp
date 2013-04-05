@@ -15,9 +15,10 @@ private:
 
 public:
     Map_Object(Drawing *drawing, double x, double y) : drawing(drawing), x(x), y(y) {}
-
-    double get_y() {return y;}
-    double get_x() {return x;}
+    ~Map_Object();
+    
+    double get_y() { return y; }
+    double get_x() { return x; }
     
     void draw(sf::RenderWindow &r, double x, double y);
 };
