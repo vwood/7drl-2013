@@ -1,14 +1,13 @@
 #include <vector>
 #include <math.h>
+#include <iostream>
 #include "random.hpp"
 #include "dvector.hpp"
 
 using namespace std;
 
 DVector::DVector(int n) {
-    int i;
-
-    for (i = 0; i < n; i++) {
+    for (int i = 0; i < n; i++) {
         this->v.push_back(0.0);
     }
 }
@@ -35,8 +34,15 @@ void DVector::set(int index, double value) {
     v[index] = value;
 }
 
+/*
+ * Adds a given value to the end of the DVector, increasing its size
+ */
 void DVector::append(double value) {
     v.push_back(value);
+}
+
+int DVector::size() {
+    return v.size();
 }
 
 /*
@@ -45,6 +51,13 @@ void DVector::append(double value) {
  */ 
 double catmull_rom(double t, double p0, double p1, double p2, double p3) {
     return p1 + 0.5 * ((p2 - p0) * t + (2*p0 - 5*p1 + 4*p2 - p3) * (t*t) + (3*p1 - p0 - 3*p2 + p3) * (t*t*t));
+}
+
+/*
+ * Returns the size to use for a DVector to have a spline from this DVector with a given k (segment size)
+ */
+int DVector::spline_size(int k) {
+    return k * (v.size() - 3) + 1;
 }
 
 /*
@@ -61,22 +74,26 @@ double catmull_rom(double t, double p0, double p1, double p2, double p3) {
 void DVector::set_to_spline(DVector *other) {
     int size = this->v.size();
     int osize = other->v.size();
-    int section_count = osize - 1;
+    int section_count = osize - 3;
     int section_size = (size - 1) / section_count;
+
+//    cout << size << " " << osize << " " << section_count << " " << section_size << endl;
     
     for (int i = 0; i < size - 1; i++) {
-        int section = i / (osize-1);
+        int section = i / section_size + 1; // skip initial section
         double t, x0, x1, x2, x3;
         t = (i % section_size) / (double)section_size;
-        x0 = other->v[max(0,section-1)];
+
+//        cout << "i:" << i << " section:" << section << " t:" << t << endl;
+        x0 = other->v[section-1];
         x1 = other->v[section];
         x2 = other->v[section+1];
-        x3 = other->v[min(section+2, osize-1)];
+        x3 = other->v[section+2];
         this->v[i] = catmull_rom(t, x0, x1, x2, x3);
     }
 
     // Last vertex is a special case
-    this->v[size-1] = other->v[osize-1];
+    this->v[size-1] = other->v[osize-2]; 
 }
 
 /*

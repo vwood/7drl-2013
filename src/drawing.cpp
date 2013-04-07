@@ -55,10 +55,7 @@ void set_vertexarray_to_dvectors(sf::VertexArray &va, int offset, int n, DVector
  * n is the number of points to set
  */
 void set_vertexarray_to_color(sf::VertexArray &va, int offset, int n, sf::Color c) {
-	int i;
-	vector<double>::const_iterator xit, yit;
-
-	for (i = 0; i < n; i++) {
+	for (int i = 0; i < n; i++) {
 		va[i + offset].color = c;
 	}
 }

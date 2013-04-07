@@ -30,7 +30,13 @@ void print_vector(const vector<double> &v) {
  * Simple window loop, won't redraw (but fuck it, this is testing)
  */
 void window_loop(sf::RenderWindow &window) {
-	sf::Event event;
+    sf::Image img = window.capture();
+    sf::Texture texture;
+    texture.loadFromImage(img);
+    sf::Sprite sprite;
+    sprite.setTexture(texture, true);
+    
+    sf::Event event;
 	while (window.isOpen()) {
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
@@ -42,6 +48,8 @@ void window_loop(sf::RenderWindow &window) {
 			}
             
 		}
+        window.draw(sprite);
+        window.display();
         sf::sleep(sf::seconds(0.1f));
 	}
 }
@@ -78,16 +86,23 @@ void test_dvector() {
     print_vector(v.get());
 }
 
-void set_vertexarray_to_dvectors(sf::VertexArray &va, int n, DVector &xs, DVector &ys) {
-	int i;
+void set_vertexarray_to_dvectors(sf::VertexArray &va, DVector &xs, DVector &ys) {
+	unsigned int i;
 	vector<double>::const_iterator xit, yit;
 
 	for (i = 0, xit = xs.get().begin(), yit = ys.get().begin();
-		 i < n && xit != xs.get().end() && yit != ys.get().end();
+		 i < va.getVertexCount() && xit != xs.get().end() && yit != ys.get().end();
 		 i++, xit++, yit++) {
 		va[i].position = sf::Vector2f(*xit, *yit);
 	}
 }
+
+void set_vertexarray_to_color(sf::VertexArray &va, sf::Color c) {
+	for (unsigned i = 0; i < va.getVertexCount(); i++) {
+		va[i].color = c;
+	}
+}
+
 
 void test_circle() {
     sf::RenderWindow window(sf::VideoMode(400, 400), "Circle Test");
@@ -100,7 +115,7 @@ void test_circle() {
 	ys.add(200.0);
     
 	sf::VertexArray lines(sf::LinesStrip, 20);
-	set_vertexarray_to_dvectors(lines, 20, xs, ys);
+	set_vertexarray_to_dvectors(lines, xs, ys);
 
 	window.clear(sf::Color::Black);
 	window.draw(lines);
@@ -126,7 +141,7 @@ void test_wave() {
 		ys.add(20.0 + i * 30.0);
 	
 		sf::VertexArray lines(sf::LinesStrip, n);
-		set_vertexarray_to_dvectors(lines, n, xs, ys);
+		set_vertexarray_to_dvectors(lines, xs, ys);
 
 		waves.push_back(lines);
 	}
@@ -172,9 +187,9 @@ void test_mnt() {
 	
 	sf::VertexArray mntl(sf::LinesStrip, n), mntm(sf::LinesStrip, n), mntr(sf::LinesStrip, n);
 
-    set_vertexarray_to_dvectors(mntl, n, mntlx, mntly);
-    set_vertexarray_to_dvectors(mntm, n, mntmx, mntmy);
-    set_vertexarray_to_dvectors(mntr, n, mntrx, mntry);
+    set_vertexarray_to_dvectors(mntl, mntlx, mntly);
+    set_vertexarray_to_dvectors(mntm, mntmx, mntmy);
+    set_vertexarray_to_dvectors(mntr, mntrx, mntry);
 
 	window.clear(sf::Color::Black);
 	window.draw(mntl);
@@ -254,25 +269,50 @@ void test_spline() {
 
     window.clear(sf::Color(128, 128, 128, 0));
 
-    DVector s(6), splinex(26), spliney(26);
+    DVector sx(0), sy(0);
 
-    s.set(0, 10.0);
-    s.set(1, 90.0);
-    s.set(2, 70.0);
-    s.set(3, 130.0);
-    s.set(4, 110.0);
-    s.set(5, 190.0);
-    splinex.set_to_spline(&s);
-    s.set(0, 180.0);
-    s.set(1, 170.0);
-    s.set(2, 60.0);
-    s.set(3, 60.0);
-    s.set(4, 170.0);
-    s.set(5, 180.0);
-    spliney.set_to_spline(&s);
+    sx.append(10.0);    sy.append(180.0);
+    sx.append(10.0);    sy.append(180.0);
+    sx.append(90.0);    sy.append(170.0);
+    sx.append(70.0);    sy.append(60.0);
+    sx.append(130.0);   sy.append(60.0);
+    sx.append(110.0);   sy.append(170.0);
+    sx.append(190.0);   sy.append(180.0);
+    sx.append(190.0);   sy.append(180.0);
 
-    sf::VertexArray va(sf::LinesStrip, 26);
-    set_vertexarray_to_dvectors(va, 26, splinex, spliney);
+    DVector splinex(sx.spline_size(4)), spliney(sy.spline_size(4));
+    
+    splinex.set_to_spline(&sx);
+    spliney.set_to_spline(&sy);
+
+    sf::VertexArray va(sf::LinesStrip, splinex.size());
+    set_vertexarray_to_dvectors(va, splinex, spliney);
+    window.draw(va);
+    window.display();
+    window_loop(window);
+}
+
+void test_spline2() {
+    sf::RenderWindow window(sf::VideoMode(400, 400), "Wave Test");
+    Random r;
+
+    window.clear(sf::Color(128, 128, 128, 0));
+
+    DVector sx(0), sy(0);
+    sx.append(100.0);   sy.append(200.0);    
+    sx.append(200.0);   sy.append(100.0);
+    sx.append(300.0);   sy.append(200.0);
+    sx.append(200.0);   sy.append(300.0);
+    sx.append(100.0);   sy.append(200.0);
+    sx.append(200.0);   sy.append(100.0);
+    sx.append(300.0);   sy.append(200.0);
+    DVector splinex(sx.spline_size(10)), spliney(sy.spline_size(10));
+    
+    splinex.set_to_spline(&sx);
+    spliney.set_to_spline(&sy);
+
+    sf::VertexArray va(sf::LinesStrip, splinex.size());
+    set_vertexarray_to_dvectors(va, splinex, spliney);
     window.draw(va);
     window.display();
     window_loop(window);
@@ -332,7 +372,7 @@ void test_island_gen() {
     xs.add(100);
     ys.add(100);    
     sf::VertexArray va(sf::TrianglesFan, n);
-    set_vertexarray_to_dvectors(va, n, xs, ys);
+    set_vertexarray_to_dvectors(va, xs, ys);
     window.draw(va);
     window.display();
     window_loop(window);
@@ -387,6 +427,55 @@ void test_map2(int w, int h) {
     window_loop(window);
 }
 
+/*
+ * Test land masses using splines
+ */
+void test_land(int w, int h) {
+    sf::RenderWindow window(sf::VideoMode(w, h), "Land Test");
+    Random r;
+
+    window.clear(sf::Color(128, 128, 128, 0));
+
+    int size = 32;
+    int p0 = w/2 - 2 * size;
+    int p1 = w/2 - size;
+    int p2 = w/2 + size;
+    int p3 = w/2 + 2 * size;
+    
+    DVector x1(0), y1(0);
+
+    x1.append(p1);  y1.append(p0);
+    x1.append(p2);  y1.append(p0);
+    x1.append(p3);  y1.append(p1);
+    x1.append(p3);  y1.append(p2);
+    x1.append(p2);  y1.append(p3);
+    x1.append(p1);  y1.append(p3);
+    x1.append(p0);  y1.append(p2);
+    x1.append(p0);  y1.append(p1);
+    x1.append(p1);  y1.append(p0);
+    x1.append(p2);  y1.append(p0);
+    x1.append(p3);  y1.append(p1);    
+
+
+//    cout << x1.spline_size(4) << endl;
+//    cout << y1.spline_size(4) << endl;    
+
+    DVector x2(x1.spline_size(8)), y2(y1.spline_size(8));
+    x2.set_to_spline(&x1);
+    y2.set_to_spline(&y1);
+
+    sf::VertexArray va(sf::TrianglesFan, x2.size());
+    set_vertexarray_to_dvectors(va, x2, y2);
+    window.draw(va);
+    set_vertexarray_to_color(va, sf::Color(0, 0, 0));
+    va.setPrimitiveType(sf::LinesStrip);
+    window.draw(va);
+    
+    window.display();
+
+    window_loop(window);
+}
+
 int main() {
     Test_Units::run();
 //    test_wave();
@@ -395,14 +484,16 @@ int main() {
 //    test_poisson();
 //    test_poisson2(400, 400, 28.28);
 //    test_drawing();
-//    test_spline();
+    test_spline();
+    test_spline2();    
 //    test_shield();
 //    test_map();
 //    test_lake();
 //    test_island_gen();
 //    test_map_objects(400, 400);
 //    test_drawing2();
-    test_map2(256, 256);
+//    test_map2(256, 256);
+    test_land(256, 256);
 
     return 0;
 }
