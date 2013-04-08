@@ -249,7 +249,7 @@ void test_drawing() {
     Drawing *tree = Drawing::new_tree(r, 80);
     Drawing *wave = Drawing::new_wave(r, 80);
 
-    window.clear(sf::Color(128, 128, 128, 0));
+    window.clear(sf::Color(128, 128, 128));
 	mnt->draw(window, 100, 180);
 	tree->draw(window, 110, 100);
 	wave->draw(window, 100, 40);
@@ -267,7 +267,7 @@ void test_spline() {
     sf::RenderWindow window(sf::VideoMode(200, 200), "Wave Test");
     Random r;
 
-    window.clear(sf::Color(128, 128, 128, 0));
+    window.clear(sf::Color(128, 128, 128));
 
     DVector sx(0), sy(0);
 
@@ -288,24 +288,24 @@ void test_spline() {
     sf::VertexArray va(sf::LinesStrip, splinex.size());
     set_vertexarray_to_dvectors(va, splinex, spliney);
     window.draw(va);
-    window.display();
+
     window_loop(window);
 }
 
 void test_spline2() {
-    sf::RenderWindow window(sf::VideoMode(400, 400), "Wave Test");
+    sf::RenderWindow window(sf::VideoMode(200, 200), "Wave Test");
     Random r;
 
-    window.clear(sf::Color(128, 128, 128, 0));
+    window.clear(sf::Color(128, 128, 128));
 
     DVector sx(0), sy(0);
-    sx.append(100.0);   sy.append(200.0);    
-    sx.append(200.0);   sy.append(100.0);
-    sx.append(300.0);   sy.append(200.0);
-    sx.append(200.0);   sy.append(300.0);
-    sx.append(100.0);   sy.append(200.0);
-    sx.append(200.0);   sy.append(100.0);
-    sx.append(300.0);   sy.append(200.0);
+    sx.append(50.0);    sy.append(100.0);    
+    sx.append(100.0);   sy.append(50.0);
+    sx.append(150.0);   sy.append(100.0);
+    sx.append(100.0);   sy.append(150.0);
+    sx.append(50.0);    sy.append(100.0);
+    sx.append(100.0);   sy.append(50.0);
+    sx.append(150.0);   sy.append(100.0);
     DVector splinex(sx.spline_size(10)), spliney(sy.spline_size(10));
     
     splinex.set_to_spline(&sx);
@@ -314,7 +314,7 @@ void test_spline2() {
     sf::VertexArray va(sf::LinesStrip, splinex.size());
     set_vertexarray_to_dvectors(va, splinex, spliney);
     window.draw(va);
-    window.display();
+
     window_loop(window);
 }
 
@@ -322,7 +322,7 @@ void test_shield() {
     sf::RenderWindow window(sf::VideoMode(200, 200), "Wave Test");
     Random r;
 
-    window.clear(sf::Color(128, 128, 128, 0));
+    window.clear(sf::Color(128, 128, 128));
 
     Drawing *shield = Drawing::new_shield(r, 100);
 	shield->draw(window, 100, 100);
@@ -334,12 +334,12 @@ void test_map() {
     sf::RenderWindow window(sf::VideoMode(200, 200), "Map Test");
     Random r;
 
-    window.clear(sf::Color(128, 128, 128, 0));
+    window.clear(sf::Color(128, 128, 128));
 
     Map m(200, 200, 20, 20);
     m.fill_tiles_randomly(r);
 	m.draw(window, 0, 0, 200, 200);
-    window.display();
+
     window_loop(window);
 }
 
@@ -347,10 +347,10 @@ void test_lake() {
     sf::RenderWindow window(sf::VideoMode(200, 200), "Map Test");
     Random r;
 
-    window.clear(sf::Color(128, 128, 128, 0));
+    window.clear(sf::Color(128, 128, 128));
     Drawing * lake = Drawing::new_lake(r, 100);
 	lake->draw(window, 100, 100);
-    window.display();
+
     window_loop(window);
 }
 
@@ -358,7 +358,7 @@ void test_island_gen() {
     sf::RenderWindow window(sf::VideoMode(200, 200), "Map Test");
     Random r;
 
-    window.clear(sf::Color(128, 128, 128, 0));
+    window.clear(sf::Color(128, 128, 128));
     int n = 32;
     DVector xs(n), ys(n), noise(n);
     noise.add_noise(r, 0.3, 1.3);
@@ -374,19 +374,19 @@ void test_island_gen() {
     sf::VertexArray va(sf::TrianglesFan, n);
     set_vertexarray_to_dvectors(va, xs, ys);
     window.draw(va);
-    window.display();
+
     window_loop(window);
 }
 
 void test_map_objects(int w, int h) {
     sf::RenderWindow window(sf::VideoMode(w, h), "Map Test");
     Random r;
-    window.clear(sf::Color(128, 128, 128, 0));
+    window.clear(sf::Color(128, 128, 128));
     Map m(w, h, 40, 40);
     m.fill_tiles_randomly(r);
     m.fill_objects_randomly(r);
     m.draw(window, 0, 0, w, h);
-    window.display();
+
     window_loop(window);
 }
 
@@ -398,14 +398,13 @@ void test_drawing2() {
 //    Drawing *d = Drawing::new_wave(r, 100);
 //    Drawing *d = Drawing::new_hill(r, 100);
     Drawing *d = Drawing::new_person(r, 100);
-    window.clear(sf::Color(128, 128, 128, 0));
+    window.clear(sf::Color(128, 128, 128));
 	d->draw(window, 100, 120);
 
 	sf::CircleShape cs(2, 4);
     cs.setPosition(100, 120);
     window.draw(cs);
     
-    window.display();
     window_loop(window);
 }
 
@@ -413,7 +412,7 @@ void test_map2(int w, int h) {
     sf::RenderWindow window(sf::VideoMode(w, h), "Map Test");
     Random r;
 
-    window.clear(sf::Color(128, 128, 128, 0));
+    window.clear(sf::Color(128, 128, 128));
 
     Map m(w / 32, h / 32, 32, 32);
     m.poly_tile_generation(r);
@@ -422,7 +421,6 @@ void test_map2(int w, int h) {
     m.fill_entities_randomly(r, 10);    
 	m.draw(window, 0, 0, w, h);
     window.capture().saveToFile("screenshot.jpg");
-    window.display();
 
     window_loop(window);
 }
@@ -434,9 +432,9 @@ void test_land(int w, int h) {
     sf::RenderWindow window(sf::VideoMode(w, h), "Land Test");
     Random r;
 
-    window.clear(sf::Color(128, 128, 128, 0));
+    window.clear(sf::Color(128, 128, 128));
 
-    int size = 32;
+    int size = 16;
     int p0 = w/2 - 2 * size;
     int p1 = w/2 - size;
     int p2 = w/2 + size;
@@ -456,11 +454,7 @@ void test_land(int w, int h) {
     x1.append(p2);  y1.append(p0);
     x1.append(p3);  y1.append(p1);    
 
-
-//    cout << x1.spline_size(4) << endl;
-//    cout << y1.spline_size(4) << endl;    
-
-    DVector x2(x1.spline_size(8)), y2(y1.spline_size(8));
+    DVector x2(x1.spline_size(4)), y2(y1.spline_size(4));
     x2.set_to_spline(&x1);
     y2.set_to_spline(&y1);
 
@@ -471,8 +465,86 @@ void test_land(int w, int h) {
     va.setPrimitiveType(sf::LinesStrip);
     window.draw(va);
     
-    window.display();
+    window_loop(window);
+}
 
+/*
+ * Test land masses using splines
+ */
+void test_land2(int w, int h) {
+    sf::RenderWindow window(sf::VideoMode(w, h), "Land Test");
+    Random r;
+
+    window.clear(sf::Color(128, 128, 128));
+
+    int grid[][5] = {{0, 0, 0, 0, 0},
+                     {0, 1, 1, 1, 0},
+                     {0, 1, 1, 0, 0},
+                     {0, 1, 1, 1, 0},                     
+                     {0, 0, 0, 0, 0}};
+
+    int ndirs = 4;
+    int dir_x[] = { 0,  1,  0, -1};
+    int dir_y[] = {-1,  0,  1,  0};    
+    
+    int size = w/5;
+    
+    int sx = 1, sy = 1, sdir = 0;     // Start point
+    int cx = sx, cy = sy, cdir = 0;   // Current point
+    
+    DVector xs(0), ys(0);
+
+    bool almost_done = false;
+    int done_count;
+    do {
+        xs.append(cx * size + dir_x[cdir] * size / 2 + size / 2);
+        ys.append(cy * size + dir_y[cdir] * size / 2 + size / 2);
+
+        int tdir = (cdir + 1) % ndirs;
+
+        // Check grid in new direction
+        if (grid[cx + dir_x[tdir]][cy + dir_y[tdir]]) {
+            // move in that direction
+            cx += dir_x[tdir];
+            cy += dir_y[tdir];
+
+            // check for concave case
+            if (grid[cx + dir_x[cdir]][cy + dir_y[cdir]]) {
+                cx += dir_x[cdir];
+                cy += dir_y[cdir];
+                // +3 because C++ modulus is ill-defined
+                cdir = (cdir + ndirs - 1) % ndirs;
+            }
+
+        } else {
+            // Just rotate
+            cdir = tdir;
+        }
+
+        if (almost_done) {
+            done_count--;
+        }
+        
+        if (cx == sx && cy == sy && cdir == sdir) {
+            almost_done = true;
+            done_count = 2;
+        }
+    } while (!(almost_done && done_count == 0));
+    
+    xs.append(cx * size + dir_x[cdir] * size / 2 + size / 2);
+    ys.append(cy * size + dir_y[cdir] * size / 2 + size / 2);
+    
+    DVector x2(xs.spline_size(4)), y2(ys.spline_size(4));
+    x2.set_to_spline(&xs);
+    y2.set_to_spline(&ys);
+
+    sf::VertexArray va(sf::TrianglesFan, x2.size());
+    set_vertexarray_to_dvectors(va, x2, y2);
+    window.draw(va);
+    set_vertexarray_to_color(va, sf::Color(0, 0, 0));
+    va.setPrimitiveType(sf::LinesStrip);
+    window.draw(va);
+    
     window_loop(window);
 }
 
@@ -484,8 +556,8 @@ int main() {
 //    test_poisson();
 //    test_poisson2(400, 400, 28.28);
 //    test_drawing();
-    test_spline();
-    test_spline2();    
+//    test_spline();
+//    test_spline2();    
 //    test_shield();
 //    test_map();
 //    test_lake();
@@ -493,7 +565,7 @@ int main() {
 //    test_map_objects(400, 400);
 //    test_drawing2();
 //    test_map2(256, 256);
-    test_land(256, 256);
-
+//    test_land(128, 128);
+    test_land2(128, 128);
     return 0;
 }
