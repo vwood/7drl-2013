@@ -479,7 +479,7 @@ void test_land2(int w, int h) {
 
     int grid[][5] = {{0, 0, 0, 0, 0},
                      {0, 1, 1, 1, 0},
-                     {0, 1, 1, 0, 0},
+                     {0, 0, 1, 0, 0},
                      {0, 1, 1, 1, 0},                     
                      {0, 0, 0, 0, 0}};
 
@@ -534,13 +534,14 @@ void test_land2(int w, int h) {
     xs.append(cx * size + dir_x[cdir] * size / 2 + size / 2);
     ys.append(cy * size + dir_y[cdir] * size / 2 + size / 2);
     
-    DVector x2(xs.spline_size(4)), y2(ys.spline_size(4));
+    DVector x2(xs.spline_size(2)), y2(ys.spline_size(2));
     x2.set_to_spline(&xs);
     y2.set_to_spline(&ys);
 
     sf::VertexArray va(sf::TrianglesFan, x2.size());
     set_vertexarray_to_dvectors(va, x2, y2);
     window.draw(va);
+
     set_vertexarray_to_color(va, sf::Color(0, 0, 0));
     va.setPrimitiveType(sf::LinesStrip);
     window.draw(va);

@@ -14,6 +14,9 @@ Create poly areas
 just use random maps for now
 
 TODO:
+Allow Drawings to contain Text by using drawable instead of VertexArray
+      (esp. for shields)
+
 * Finish 2d map objects
   - Desert?
   - Replace colours with generated colour regions (certain forests are same colour?)
