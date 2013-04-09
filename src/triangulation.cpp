@@ -3,6 +3,8 @@
 #include "dvector.hpp"
 #include "triangulation.hpp"
 
+using namespace std;
+
 /*
  * Returns:
  *
@@ -50,7 +52,8 @@ bool intersection_point(double ax, double ay,
     return false;
 }
 
-vector<sf::VertexArray *> triangulation(DVector &x, DVector &y) {
+vector<sf::VertexArray *> *triangulation(DVector &x, DVector &y) {
+    vector<sf::VertexArray *> *result = new vector<sf::VertexArray *>;
     
-
+    return result;
 }

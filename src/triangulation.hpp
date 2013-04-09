@@ -8,6 +8,6 @@ class DVector;
 /*
  * Triangulate a concave polygon, into separate convex polygons
  */
-extern vector<sf::VertexArray *> triangulate(DVector &x, DVector &y);
+extern std::vector<sf::VertexArray *> *triangulate(DVector &x, DVector &y);
 
 #endif
